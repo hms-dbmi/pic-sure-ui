@@ -1,0 +1,23 @@
+<html>
+<head>
+	<script src="/webjars/requirejs/2.3.5/require.min.js" data-main="/main"></script>
+	<link href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/styles.css" rel="stylesheet">
+</head>
+<body class="container">
+	<div id="header"></div>
+	<div id="main-content" class="row">
+		<div id="query-builder" class="col-md-8">
+			<ul class="container" id="filter-list"></ul>
+		</div>
+		<div id="query-results" class="col-md-4">
+			<div id="patient-count-box">
+				<!-- TODO : move this to a component of its own. -->
+				<span id="patient-count" class="blue center large">6,500</span><br>
+				<span class="center medium">patients enrolled</span><br>
+				<span class="center small">as of April 1st, 2018</span><br>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

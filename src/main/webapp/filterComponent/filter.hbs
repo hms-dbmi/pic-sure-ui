@@ -1,0 +1,17 @@
+<div class="row">
+<div class="filter-qualifier col-md-3">
+  <button class="btn btn-secondary dropdown-toggle" id="filter-qualifier-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Filter Type
+  </button>
+  <div class="dropdown-menu col-md-3" aria-labelledby="filter-qualifier-btn">
+    <a class="dropdown-item {{#if inclusive}}active{{/if}}" href="#">Must Have</a>
+    <a class="dropdown-item {{#if inclusive}}{{else}}active{{/if}}" href="#">Must Not Have</a>
+  </div>
+</div>
+<div class="filter-search-box col-md-3">
+  <input class="search-box form-control" placeholder="Search..." value="{{searchTerm}}">
+</div>
+<div class="search-button col-md-1">
+	<span class="glyphicon glyphicon-search"></span>
+</div>
+</div>
