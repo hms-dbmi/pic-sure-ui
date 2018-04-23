@@ -1,0 +1,35 @@
+#header {
+	
+}   height: 120px;
+    background-color: #5aaeff;
+}
+#patient-count-box{
+	line-height:1;
+}
+.large {
+  font-size: 5em;
+}
+.medium {
+  font-size: 1.5em;
+}
+.small {
+  font-size: .75em;
+}
+.center {
+  text-align: center;
+  display: block;
+}
+.autocomplete-category {
+	font-size: .7em;
+	color: #bf6d6d;
+}
+.autocomplete-term-parent {
+	font-size: .7em;
+	color: lightblue;
+}
+.suggestion-container {
+    border: solid;
+    border-color: lightgrey;
+    border-width: 1px;
+    border-radius: 4px;
+}
