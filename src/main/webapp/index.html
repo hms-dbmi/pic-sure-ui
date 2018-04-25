@@ -1,17 +1,60 @@
 <html>
 <head>
-	<script src="/webjars/requirejs/2.3.5/require.min.js" data-main="/main"></script>
-	<link href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/styles.css" rel="stylesheet">
+<script src="/webjars/requirejs/2.3.5/require.min.js" data-main="/main"></script>
+<link href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="/styles.css" rel="stylesheet">
 </head>
 <body class="container">
-	<div id="header"></div>
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-toggle="modal"
+		data-target="#exampleModalCenter">Change PIC-SURE Instance</button>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="form-group">
+							<label for="environment" class="col-md-3">Environment: </label>
+							<select class="col-md-4 form-control" id="environment">
+								<option>NHANES</option>
+								<option>PL</option>
+							</select><br>
+						</div>
+						<div class="form-group">
+							<label for="token" class="col-md-3">Token: </label>
+							<input type="password" class="col-md-4 form-control" id="token"></input>
+						</div>
+					</div>					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" id="modal-save-button" class="btn btn-primary">Set Environment</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="header" class="blue-bg-white-text">
+	
+	</div>
 	<div id="main-content" class="row">
 		<div id="query-builder" class="col-md-8">
 			<ul class="container" id="filter-list"></ul>
 		</div>
-		<div id="query-results" class="col-md-4">
-		</div>
+		<div id="query-results" class="col-md-4"></div>
 	</div>
+
 </body>
 </html>
