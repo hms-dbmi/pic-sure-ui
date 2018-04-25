@@ -5,6 +5,9 @@
 }
 #patient-count-box{
 	line-height:1;
+	border-width:1px;
+	border:solid;
+	border-color:lightgrey;
 }
 .large {
   font-size: 5em;
@@ -18,6 +21,9 @@
 .center {
   text-align: center;
   display: block;
+}
+.blue {
+	color : #4e92df;
 }
 .autocomplete-category {
 	font-size: .7em;
