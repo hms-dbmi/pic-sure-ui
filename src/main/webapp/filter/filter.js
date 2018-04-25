@@ -1,4 +1,4 @@
-define(["backbone", "handlebars", "text!filterComponent/filter.hbs", "text!filterComponent/suggestion.hbs", "autocomplete"], 
+define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "autocomplete"], 
 		function(BB, HBS, filterTemplate, suggestionTemplate){
 	var filterView = BB.View.extend({
 		initialize: function(){
