@@ -139,6 +139,22 @@
 							<path>/</path>
 						</configuration>
 					</execution>
+					<execution>
+						<!-- NOTE : The standalone.jar is just so Paul can demo at this point.
+							Work should be done to harden it if we decide to use this as
+							a deployment method for production. -->
+						<id>tomcat-run</id>
+						<goals>
+							<goal>exec-war</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<path>/</path>
+							<enableNaming>false</enableNaming>
+							<finalName>standalone.jar</finalName>
+							<charset>utf-8</charset>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
