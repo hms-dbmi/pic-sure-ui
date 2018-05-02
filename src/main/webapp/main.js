@@ -28,7 +28,6 @@ require(["filter/filter", "output/outputPanel", "bootstrap"],
 	});
 	firstFilter.render();
 	$('#filter-list').append(firstFilter.$el);
-	$('.dropdown-toggle').dropdown();
 	var outputPanel = new output.View({});
 	outputPanel.render();
 	$('#query-results').append(outputPanel.$el);
@@ -41,7 +40,11 @@ require(["filter/filter", "output/outputPanel", "bootstrap"],
 		}else{
 			alert("You must set a token and choose an environment. <br><br>" +
 					"For PL environment get a token from PL-Dev. <br>" +
-					"For NHANES environment get a token from NHANES-Prod");
+			"For NHANES environment get a token from NHANES-Prod");
 		}
+	});
+	$('.dropdown-toggle').dropdown();
+	$(".dropdown-menu li a").click(function(event){
+		document.getElementById(event.target.parentElement.parentElement.attributes['aria-labelledby'].value).innerText = $(this).text();
 	});
 });
