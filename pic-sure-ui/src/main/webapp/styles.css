@@ -42,3 +42,7 @@
 #filter-list {
 	width: 100%;
 }
+.filter-list-entry {
+    background-color: lightblue;
+    padding: 10 10 10 10;
+}
