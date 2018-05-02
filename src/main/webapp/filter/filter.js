@@ -1,17 +1,28 @@
-define(["picSure/queryCache","picSure/queryBuilder","picSure/resourceMeta", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "autocomplete"], 
-		function(queryCache, queryBuilder, resourceMeta, BB, HBS, filterTemplate, suggestionTemplate){
+define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "autocomplete"], 
+		function(BB, HBS, filterTemplate, suggestionTemplate){
 	var filterModel = BB.Model.extend({
-		inclusive: true,
-		searchTerm: ""
+		defaults:{
+			inclusive: true,
+			searchTerm: ""
+		}
 	});
 	var filterView = BB.View.extend({
-		initialize: function(){
+		initialize: function(opts){
 			this.template = HBS.compile(filterTemplate);
 			this.suggestionTemplate = HBS.compile(suggestionTemplate);
-			this.model = new filterModel();
+			this.queryCallback = opts.queryCallback;
 		},
 		tagName: "div",
-		className: "row",
+		className: "filter-list-entry row",
+		events: {
+			"selected .search-box" : "onSelect"
+		},
+		onSelect : function(event, suggestion){
+			console.log("selected");
+			this.model.set("inclusive", $('.filter-qualifier-btn').text().trim() === "Must Have");
+			this.model.set("searchTerm", suggestion.data);
+			this.queryCallback();
+		},
 		render: function(){
 			if(!(sessionStorage.token && sessionStorage.environment)){
 				alert("You must set sessionStorage.environment to either \"NHANES\" or \"PL\" and sessionStorage.token to a valid PIC-SURE token for NHANES or PL-Dev");
@@ -20,7 +31,7 @@ define(["picSure/queryCache","picSure/queryBuilder","picSure/resourceMeta", "bac
 			this.$el.html(this.template(this.model));
 			$('.search-box', this.$el).autocomplete({
 				lookup: function (query, done) {
-			        var result = {};
+					var result = {};
 					$.ajax({
 						url: "/" + sessionStorage.environment + "/resourceService/find?term=%25"+query+"%25",
 						success: function(response){
@@ -59,61 +70,24 @@ define(["picSure/queryCache","picSure/queryBuilder","picSure/resourceMeta", "bac
 							if(result.length > 100){
 								result = result.slice(0,99);
 							}
-					        done(result);
+							done(result);
 						},
 						headers: {
 							"Authorization": "Bearer " + sessionStorage.token
 						},
 						dataType: "json"
 					});
-			    },
-			    onSelect: function(suggestion){
-			    		var queryCompletionDeferred = $.Deferred();
-			    		console.log(suggestion);
-			    		var callbacks = {
-			    				success: function(id){
-			    					console.log(id + " SUCCESS");
-			    					$.ajax({
-			    						url : resourceMeta.nhanes.queryResultBasePath + id + "/JSON",
-			    						success : function(result){
-			    							console.log(result);
-			    							$('#patient-count').html(result.data.length);
-			    						},
-			    						failure : function(data){
-			    							console.log(data);
-			    						}
-			    					});
-
-			    				},
-			    				error: function(id){
-			    					_.each(_.keys(localStorage), function(key){
-			    						if(localStorage.getItem(key)==id){
-			    							localStorage.removeItem(key);
-			    						}
-			    					});
-			    					console.log(id + " ERROR");
-			    				},
-			    				running: function(id){
-			    					console.log(id + " STILL RUNNING");
-			    				}
-			    		};
-			    		queryCache.submitQuery(
-			    				resourceMeta.nhanes,
-			    				queryBuilder.createQuery(suggestion.data),
-			    				suggestion.data,
-			    				queryCompletionDeferred, 
-			    				callbacks);
-			    		$.when(queryCompletionDeferred).then(function(){
-			    			console.log("deferred resolved");
-			    		});
-			    },
-			    formatResult: function(suggestion, currentValue){
-			    		return this.suggestionTemplate(suggestion);
-			    }.bind(this),
-			    triggerSelectOnValidInput: false,
-			    minChars: 2,
-			    showNoSuggestionNotice: true,
-			    noSuggestionNotice: "Sorry, no results found. Please try synonyms or more general terms for your query."
+				},
+				onSelect: function(suggestion){
+					$(this).trigger("selected", suggestion);
+				},
+				formatResult: function(suggestion, currentValue){
+					return this.suggestionTemplate(suggestion);
+				}.bind(this),
+				triggerSelectOnValidInput: false,
+				minChars: 2,
+				showNoSuggestionNotice: true,
+				noSuggestionNotice: "Sorry, no results found. Please try synonyms or more general terms for your query."
 			});
 		}
 	});
