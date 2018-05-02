@@ -1,12 +1,15 @@
-<div class="row">
+<div>
 <div class="filter-qualifier col-md-3">
-  <button class="btn btn-secondary dropdown-toggle" id="filter-qualifier-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Filter Type
+  <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="filter-qualifier-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Must Have
+    <span class="caret"></span>
   </button>
-  <div class="dropdown-menu col-md-3" aria-labelledby="filter-qualifier-btn">
-    <a class="dropdown-item {{#if inclusive}}active{{/if}}" href="#">Must Have</a>
-    <a class="dropdown-item {{#if inclusive}}{{else}}active{{/if}}" href="#">Must Not Have</a>
-  </div>
+  <ul class="dropdown-menu" aria-labelledby="filter-qualifier-btn">
+    <li><a class="dropdown-item {{#if inclusive}}active{{/if}}" href="#">Must Have</a></li>
+    <li><a class="dropdown-item {{#if inclusive}}{{else}}active{{/if}}" href="#">Must Not Have</a></li>
+  </ul>
+</div>
 </div>
 <div class="filter-search-box col-md-3">
   <input class="search-box form-control" placeholder="Search..." value="{{searchTerm}}">
