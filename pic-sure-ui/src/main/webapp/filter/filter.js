@@ -3,7 +3,8 @@ define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggest
 	var filterModel = BB.Model.extend({
 		defaults:{
 			inclusive: true,
-			searchTerm: ""
+			searchTerm: "",
+			and: true
 		}
 	});
 	var filterView = BB.View.extend({
@@ -15,13 +16,19 @@ define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggest
 		tagName: "div",
 		className: "filter-list-entry row",
 		events: {
-			"selected .search-box" : "onSelect"
+			"selected .search-box" : "onSelect",
+			"hidden.bs.dropdown .dropdown" : "onSelect"
 		},
 		onSelect : function(event, suggestion){
 			console.log("selected");
-			this.model.set("inclusive", $('.filter-qualifier-btn').text().trim() === "Must Have");
-			this.model.set("searchTerm", suggestion.data);
-			this.queryCallback();
+			this.model.set("inclusive", $('.filter-qualifier-btn', this.$el).text().trim() === "Must Have");
+			this.model.set("and", $('.filter-boolean-operator-btn', this.$el).text().trim() === "AND");
+			if(suggestion && suggestion.data){
+				this.model.set("searchTerm", suggestion.data);
+			}
+			if(this.model.get("searchTerm").trim().length > 0){
+				this.queryCallback();				
+			}
 		},
 		render: function(){
 			if(!(sessionStorage.token && sessionStorage.environment)){
@@ -89,6 +96,10 @@ define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggest
 				showNoSuggestionNotice: true,
 				noSuggestionNotice: "Sorry, no results found. Please try synonyms or more general terms for your query."
 			});
+			$('.dropdown-toggle', this.$el).dropdown();
+			$('.dropdown-menu li a', this.$el).click(function(event){
+				$("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value, this.$el).text(event.target.text);
+			}.bind(this));
 		}
 	});
 	return {

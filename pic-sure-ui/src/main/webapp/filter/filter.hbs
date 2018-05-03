@@ -1,21 +1,34 @@
-<div class="filter-row">
-<div class="filter-qualifier col-md-3">
-  <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle filter-qualifier-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Must Have
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="filter-qualifier-btn">
-    <li><a class="dropdown-item {{#if inclusive}}active{{/if}}" href="#">Must Have</a></li>
-    <li><a class="dropdown-item {{#if inclusive}}{{else}}active{{/if}}" href="#">Must Not Have</a></li>
-  </ul>
+<div class="filter-row container">
+	<div class="filter-search-row row">
+		<div class="filter-qualifier col-md-3">
+			<div class="dropdown">
+			  <button class="btn btn-default dropdown-toggle filter-qualifier-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			    Must Have
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" aria-labelledby="filter-qualifier-btn">
+			    <li><a class="dropdown-item {{#if inclusive}}active{{/if}}" href="#">Must Have</a></li>
+			    <li><a class="dropdown-item {{#if inclusive}}{{else}}active{{/if}}" href="#">Must Not Have</a></li>
+			  </ul>
+			</div>
+		</div>
+		<div class="filter-search-box col-md-3">
+		  <input class="search-box form-control" placeholder="Search..." value="{{searchTerm}}">
+		</div>
+		<div class="search-button col-md-1">
+			<span class="glyphicon glyphicon-search"></span>
+		</div>
+	</div>
+	<div class="filter-boolean-operator row hidden">
+		<div class="dropdown">
+		  <button class="btn btn-default dropdown-toggle filter-boolean-operator-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		    AND
+		    <span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="filter-boolean-operator-btn">
+		    <li><a class="dropdown-item {{#if and}}active{{/if}}" href="#">AND</a></li>
+		    <li><a class="dropdown-item {{#if and}}{{else}}active{{/if}}" href="#">OR</a></li>
+		  </ul>
+		</div>			
+	</div>
 </div>
-</div>
-<div class="filter-search-box col-md-3">
-  <input class="search-box form-control" placeholder="Search..." value="{{searchTerm}}">
-</div>
-<div class="search-button col-md-1">
-	<span class="glyphicon glyphicon-search"></span>
-</div>
-</div>
-<br>
