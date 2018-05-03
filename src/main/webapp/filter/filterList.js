@@ -4,13 +4,10 @@ define(["picSure/queryCache","picSure/queryBuilder","picSure/resourceMeta", "fil
 			$('#filter-list').html();
 			this.filters = [];
 			this.addFilter();
-			$('.dropdown-toggle').dropdown();
-			$('.dropdown-menu li a').click(function(event){
-				$("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value).text($(this).text());
-			});
 		}
 	};
 	filterList.addFilter = function(){
+		$('.filter-boolean-operator').removeClass('hidden');
 		var newFilter = new filter.View({
 			queryCallback : this.runQuery,
 			model : new filter.Model()

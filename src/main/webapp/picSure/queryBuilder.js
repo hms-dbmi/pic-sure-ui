@@ -18,7 +18,11 @@ define([], function(){
 		};
 		_.each(filters, function(filter){
 			if(filter.get("searchTerm").trim().length !== 0){
-				query.where.push(createWhere(filter.get("searchTerm"), filter.get("inclusive") ? "AND" : "NOT"));				
+				query.where.push(
+						createWhere(filter.get("searchTerm"), 
+								filter.get("inclusive") ? 
+										(filter.get("and") ? "AND" : "OR") 
+										: "NOT"));				
 			}
 		});
 		return query;
