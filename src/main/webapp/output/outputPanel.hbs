@@ -1,8 +1,17 @@
 <div id="patient-count-box">
 	<!-- TODO : move this to a component of its own. -->
 	<span id="patient-count" class="blue center large">6,500</span><br>
-	<span class="center medium">patients enrolled</span><br>
-	<span class="center small">as of April 1st, 2018</span><br>
+	<span class="center medium">Total Patients</span><br>
+	<div class="container" id="pic-sure-instances">
+	{{#each this}}
+		<div class="row">
+			<span class="col-md-2"></span>
+			<span class="col-md-4 center">{{name}}</span>
+			<span class="col-md-4 center" id="patient-count-{{id}}"></span>
+			<span class="col-md-2"></span>
+		</div>
+	{{/each}}
+	</div>
 </div>
 <div id="extended-info">
 </div>
