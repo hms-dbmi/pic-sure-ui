@@ -2,18 +2,19 @@
 	<div class="filter-search-row row">
 		<div class="filter-qualifier col-md-3">
 			<div class="dropdown">
-			  <button class="btn btn-default dropdown-toggle filter-qualifier-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-			    Must Have
-			    <span class="caret"></span>
-			  </button>
-			  <ul class="dropdown-menu" aria-labelledby="filter-qualifier-btn">
-			    <li><a class="dropdown-item {{#if inclusive}}active{{/if}}" href="#">Must Have</a></li>
-			    <li><a class="dropdown-item {{#if inclusive}}{{else}}active{{/if}}" href="#">Must Not Have</a></li>
-			  </ul>
+                <button class="btn btn-default dropdown-toggle filter-qualifier-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Must Have
+                    <span class="caret"></span>
+                </button>
+			    <ul class="dropdown-menu" aria-labelledby="filter-qualifier-btn">
+			        <li><a class="dropdown-item {{#if inclusive}}active{{/if}}" href="#">Must Have</a></li>
+			        <li><a class="dropdown-item {{#if inclusive}}{{else}}active{{/if}}" href="#">Must Not Have</a></li>
+			    </ul>
 			</div>
 		</div>
 		<div class="filter-search-box col-md-3">
-		  <input class="search-box form-control" placeholder="Search..." value="{{searchTerm}}">
+		    <div class="spinner" style="display: none; position: absolute; right: 10%;"></div>
+		    <input class="search-box form-control" placeholder="Search..." value="{{searchTerm}}">
 		</div>
 		<div class="search-button col-md-1">
 			<span class="glyphicon glyphicon-search"></span>

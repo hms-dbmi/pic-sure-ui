@@ -21,6 +21,7 @@ define(["text!output/outputPanel.hbs","picSure/resourceMeta", "picSure/queryCach
 									$('#patient-count-' + picsureInstance.id).text(result.data.length);
 									this.totalCount += result.data.length;
 									$('#patient-count').text(this.totalCount);
+		                             $('#patient-spinner').hide();
 								}.bind(view),
 								failure : function(data){
 									console.log(data);
