@@ -1,61 +1,60 @@
 define(['jquery','underscore'], function($, _){
 	
-	var submitQuery = function(targetSystem, query, displayName, deferred, callbacks){
-		
-		var checkStatus = function(id, stillRunning, stopRunning){
+	var runningQueryIds = {};
+	
+	var submitQuery = function(targetSystem, query, displayName, dataCallback){
+		var checkStatus = function(id, stillRunning){
 			setTimeout(function(){
-				$.get(targetSystem.queryStatusBasePath + window.localStorage.getItem(displayName), function(data){
+				$.get(targetSystem.queryStatusBasePath + runningQueryIds[displayName], function(data){
 					switch(data.status){
 					case "RUNNING":
 						// Query is still running so just keep waiting.
-						if(callbacks && typeof callbacks.running === "function"){
-							callbacks.running(data.resultId);
-						}
 						stillRunning();
 						break;
 					case "AVAILABLE":
 						// Query has completed
-						if(callbacks && typeof callbacks.success === "function"){
-							callbacks.success(data.resultId);
-						}
-						stopRunning();
+						$.ajax({
+							url : targetSystem.queryResultBasePath + id + "/JSON",
+							success : function(result){
+								dataCallback(result);
+							},
+							failure : function(data){
+								console.log(data);
+							}
+						});
 						break;
 					case "ERROR":
 						// Query failed
-						window.localStorage.removeItem(data.resultId);
-						if(callbacks && typeof callbacks.error === "function"){
-							callbacks.error(data.resultId);
-						}
-						stopRunning();
+						dataCallback(undefined);
 						break;
 					default : 
 						console.log("UNKNOWN QUERY STATUS : " + data.status);
-						stopRunning();
+						dataCallback(undefined);
 						break;
 					};
 			});
-			}, 200);
+			}, 500);
 		}
 
-		if(localStorage[displayName]===undefined){
+		var initiateQuery = function(){
 			$.ajax(targetSystem.queryPath, {
 				data : JSON.stringify(query),
 				contentType: 'application/json',
 				type: 'POST',
 				success: function(data, status, jqXHR){
-					window.localStorage.setItem(displayName, data.resultId);
+					runningQueryIds[displayName] = data.resultId;
 					var stillRunning = function(){
-						checkStatus(localStorage[displayName], stillRunning, deferred.resolve);				
+						checkStatus(runningQueryIds[displayName], stillRunning);				
 					};
 					stillRunning();
 				}
 			});
-			
+		}
+
+		if(runningQueryIds[displayName]===undefined){
+			initiateQuery();
 		}else{
-			var stillRunning = function(){
-				checkStatus(localStorage[displayName], stillRunning, deferred.resolve);				
-			};
-			stillRunning();
+			initiateQuery();
 		}
 	}
 
