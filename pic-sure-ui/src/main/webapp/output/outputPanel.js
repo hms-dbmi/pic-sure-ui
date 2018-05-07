@@ -9,7 +9,7 @@ define(["text!output/outputPanel.hbs", "backbone", "handlebars"],
 			
 		},
 		render: function(){
-			this.$el.html("SPINNING...");
+           	this.$el.html("<div id=\"patient-spinner\" class=\"spinner spinner-large spinner-large-center\" style=\"position: relative;\"></div>");
 			setTimeout(function(){
 				this.$el.html(this.template({}));				
 			}.bind(this), 2000);

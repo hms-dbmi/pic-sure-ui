@@ -36,7 +36,9 @@ define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggest
 				return;
 			}
 			this.$el.html(this.template(this.model));
+            var spinner = this.$el.find(".spinner");
 			$('.search-box', this.$el).autocomplete({
+                deferRequestBy: 300,
 				lookup: function (query, done) {
 					var result = {};
 					$.ajax({
@@ -79,6 +81,12 @@ define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggest
 							}
 							done(result);
 						},
+                        beforeSend: function(){
+                            spinner.show();
+						},
+                        complete: function(){
+                            spinner.hide();
+                        },
 						headers: {
 							"Authorization": "Bearer " + sessionStorage.token
 						},
@@ -93,7 +101,7 @@ define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggest
 				}.bind(this),
 				triggerSelectOnValidInput: false,
 				minChars: 2,
-				showNoSuggestionNotice: true,
+                showNoSuggestionNotice: true,
 				noSuggestionNotice: "Sorry, no results found. Please try synonyms or more general terms for your query."
 			});
 			$('.dropdown-toggle', this.$el).dropdown();

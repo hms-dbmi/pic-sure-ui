@@ -1,7 +1,6 @@
 #header {
-	
-}   height: 120px;
-    background-color: #5aaeff;
+   height: 120px;
+   background-color: #5aaeff;
 }
 #patient-count-box{
 	line-height:1;
@@ -45,4 +44,53 @@
 .filter-list-entry {
     background-color: lightblue;
     padding: 10 10 10 10;
+}
+
+.spinner {
+    position: absolute;
+    margin-top: 5px;
+    border-radius: 50%;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4e92df;
+    width: 20px;
+    height: 20px;
+    -webkit-animation: spin 0.7s linear infinite;
+    animation: spin 0.7s linear infinite;
+}
+
+.spinner-medium {
+    width: 40px;
+    height: 40px;
+}
+
+.spinner-large {
+    width: 60px;
+    height: 60px;
+    border-width: 4px;
+    margin-top: 10px;
+}
+
+.spinner-center {
+    left: 50%;
+    margin-left: -10px;
+}
+
+.spinner-medium-center {
+    left: 50%;
+    margin-left: -20px;
+}
+
+.spinner-large-center {
+    left: 50%;
+    margin-left: -30px;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
