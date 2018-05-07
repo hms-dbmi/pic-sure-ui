@@ -18,7 +18,9 @@ define(["picSure/queryCache","picSure/queryBuilder","picSure/resourceMeta", "fil
 	}.bind(filterList);
 	filterList.runQuery = function(){
 		var query = queryBuilder.createQuery(_.pluck(this.filters, "model"));
-		var queryCompletionDeferred = $.Deferred();
+        var queryCompletionDeferred = $.Deferred();
+        $('#patient-count').html("");
+        $('#patient-spinner').show();
 		var callbacks = {
 				success: function(id){
 					console.log(id + " SUCCESS");
@@ -26,10 +28,12 @@ define(["picSure/queryCache","picSure/queryBuilder","picSure/resourceMeta", "fil
 						url : resourceMeta.nhanes.queryResultBasePath + id + "/JSON",
 						success : function(result){
 							console.log(result);
+                            $('#patient-spinner').hide();
 							$('#patient-count').html(result.data.length);
 						},
 						failure : function(data){
 							console.log(data);
+                            $('#patient-count').html("Error");
 						}
 					});
 

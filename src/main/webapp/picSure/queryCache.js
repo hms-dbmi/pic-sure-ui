@@ -34,7 +34,7 @@ define(['jquery','underscore'], function($, _){
 						break;
 					};
 			});
-			}, 100);
+			}, 200);
 		}
 
 		if(localStorage[displayName]===undefined){
