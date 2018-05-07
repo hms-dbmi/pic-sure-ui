@@ -1,4 +1,5 @@
-define(["picSure/queryCache","picSure/queryBuilder","picSure/resourceMeta", "filter/filter"], function(queryCache, queryBuilder, resourceMeta, filter){
+define(["output/outputPanel","picSure/queryBuilder", "filter/filter"], 
+		function(outputPanel, queryBuilder, filter){
 	var filterList = {
 		init : function(){
 			$('#filter-list').html();
@@ -17,50 +18,15 @@ define(["picSure/queryCache","picSure/queryBuilder","picSure/resourceMeta", "fil
 		$('#filter-list').append(newFilter.$el);
 	}.bind(filterList);
 	filterList.runQuery = function(){
-		var query = queryBuilder.createQuery(_.pluck(this.filters, "model"));
-		var queryCompletionDeferred = $.Deferred();
-		var callbacks = {
-				success: function(id){
-					console.log(id + " SUCCESS");
-					$.ajax({
-						url : resourceMeta.nhanes.queryResultBasePath + id + "/JSON",
-						success : function(result){
-							console.log(result);
-							$('#patient-count').html(result.data.length);
-						},
-						failure : function(data){
-							console.log(data);
-						}
-					});
-
-				},
-				error: function(id){
-					_.each(_.keys(localStorage), function(key){
-						if(localStorage.getItem(key)==id){
-							localStorage.removeItem(key);
-						}
-					});
-					console.log(id + " ERROR");
-				},
-				running: function(id){
-					console.log(id + " STILL RUNNING");
-				}
-		};
-		queryCache.submitQuery(
-				resourceMeta.nhanes,
-				query,
-				new Date().getTime(),
-				queryCompletionDeferred, 
-				callbacks);
-		$.when(queryCompletionDeferred).then(function(){
-			console.log("deferred resolved");
-		});
+		var query = queryBuilder.createQuery(
+				_.pluck(this.filters, "model"));
+		outputPanel.View.update(query);
 		if(_.countBy(this.filters, function(filter){
 			return filter.model.get("searchTerm").trim() === "" ? "empty" : "notEmpty";
 		}).empty == undefined){
 			this.addFilter();			
 		}
-		
+
 	}.bind(filterList);
 
 	return filterList;

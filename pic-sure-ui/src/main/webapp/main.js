@@ -24,7 +24,7 @@ require(["filter/filterList", "output/outputPanel", "bootstrap"],
 
 	console.log("in main");
 	filterList.init();
-	var outputPanel = new output.View({});
+	var outputPanel = output.View;
 	outputPanel.render();
 	$('#query-results').append(outputPanel.$el);
 	
