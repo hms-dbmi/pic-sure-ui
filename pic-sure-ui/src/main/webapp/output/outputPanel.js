@@ -1,5 +1,5 @@
-define(["text!output/outputPanel.hbs","picSure/resourceMeta", "picSure/queryCache", "backbone", "handlebars"], 
-	function(outputTemplate, resourceMeta, queryCache, BB, HBS){
+define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", "picSure/queryCache", "backbone", "handlebars"], 
+	function(spinner, outputTemplate, resourceMeta, queryCache, BB, HBS){
 	var outputView = BB.View.extend({
 		initialize: function(){
 			this.template = HBS.compile(outputTemplate);
@@ -9,55 +9,45 @@ define(["text!output/outputPanel.hbs","picSure/resourceMeta", "picSure/queryCach
 		update: function(query){
 			this.totalCount = 0;
 			var view = this;
+			var atLeastOneResultComplete = $.Deferred();
+			spinner.medium(atLeastOneResultComplete, "#spinner-total");
 			_.each(resourceMeta, function(picsureInstance){
 				var queryCompletionDeferred = $.Deferred();
-				var callbacks = {
-						success: function(id){
-							console.log(id + " SUCCESS");
-							$.ajax({
-								url : picsureInstance.queryResultBasePath + id + "/JSON",
-								success : function(result){
-									console.log(result);
-									$('#patient-count-' + picsureInstance.id).text(result.data.length);
-									this.totalCount += result.data.length;
-									$('#patient-count').text(this.totalCount);
-		                             $('#patient-spinner').hide();
-								}.bind(view),
-								failure : function(data){
-									console.log(data);
-								}
-							});
-
-						},
-						error: function(id){
-							_.each(_.keys(localStorage), function(key){
-								if(localStorage.getItem(key)==id){
-									localStorage.removeItem(key);
-								}
-							});
-							console.log(id + " ERROR");
-						},
-						running: function(id){
-							console.log(id + " STILL RUNNING");
-						}
-				};
+				spinner.small(queryCompletionDeferred, "#spinner-" + picsureInstance.id);
+				
+				$('#patient-count-' + picsureInstance.id).text("");
+				
+				var dataCallback = function(result){
+					if(result == undefined){
+						$('#patient-count-' + picsureInstance.id).text("Error");						
+						queryCompletionDeferred.resolve();
+					}else{
+						$('#patient-count-' + picsureInstance.id).text(result.data.length);
+						this.totalCount += result.data.length;
+						$('#patient-count').text(this.totalCount);
+						queryCompletionDeferred.resolve();
+					}
+				}.bind(this);
+				
 				queryCache.submitQuery(
 						picsureInstance,
 						query,
 						picsureInstance.id,
-						queryCompletionDeferred, 
-						callbacks);
+						dataCallback);
 				$.when(queryCompletionDeferred).then(function(){
 					console.log("deferred resolved");
+					if(atLeastOneResultComplete.state() == "pending"){
+						atLeastOneResultComplete.resolve();
+					}
 				});
 			}.bind(this));		
 		},
 		render: function(){
 			this.$el.html(this.template(resourceMeta));
 			if(this.totalCount == 0){
-				$('#patient-count').text("?");
+				$('#patient-count', this.$el).html("?");
 			}else{
-				$('#patient-count').text(this.totalCount);
+				$('#patient-count', this.$el).html(this.totalCount);
 			}
 		}
 	});
