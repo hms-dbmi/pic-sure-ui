@@ -1,6 +1,12 @@
 #header {
-   height: 120px;
-   background-color: #5aaeff;
+   width: 100%;
+   background-color: #4a90e2;
+}
+#main-content{
+	width: 80%;
+}
+#header-content{
+	width: 80%;
 }
 #patient-count-box{
 	line-height:1;
@@ -22,7 +28,7 @@
   display: block;
 }
 .blue {
-	color : #4e92df;
+	color : #4a90e2;
 }
 .autocomplete-category {
 	font-size: .7em;
@@ -42,11 +48,17 @@
 	width: 100%;
 }
 .filter-list-entry {
-    background-color: lightblue;
     padding: 10 10 10 10;
 }
 .filter-row {
 	width: 100%;
+}
+.filter-search-row {
+    background-color: lightblue;
+    padding: 5px;
+}
+.filter-boolean-operator-btn {
+	background-color: #4a90e2;
 }
 .search-box-spinner {
     position: absolute !important;
