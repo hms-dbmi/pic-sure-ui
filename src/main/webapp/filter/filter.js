@@ -1,5 +1,5 @@
-define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "autocomplete"], 
-		function(BB, HBS, filterTemplate, suggestionTemplate){
+define(["common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "autocomplete"], 
+		function(spinner, BB, HBS, filterTemplate, suggestionTemplate){
 	var filterModel = BB.Model.extend({
 		defaults:{
 			inclusive: true,
@@ -36,11 +36,12 @@ define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggest
 				return;
 			}
 			this.$el.html(this.template(this.model));
-            var spinner = this.$el.find(".spinner");
+			var spinnerSelector = this.$el.find(".spinner-div");
 			$('.search-box', this.$el).autocomplete({
-                deferRequestBy: 300,
+				deferRequestBy: 300,
 				lookup: function (query, done) {
 					var result = {};
+					var lookupDeferred = $.Deferred();
 					$.ajax({
 						url: "/" + sessionStorage.environment + "/resourceService/find?term=%25"+query+"%25",
 						success: function(response){
@@ -81,12 +82,12 @@ define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggest
 							}
 							done(result);
 						},
-                        beforeSend: function(){
-                            spinner.show();
+						beforeSend: function(){
+							spinner.small(lookupDeferred, spinnerSelector, "search-box-spinner");
 						},
-                        complete: function(){
-                            spinner.hide();
-                        },
+						complete: function(){
+							lookupDeferred.resolve();
+						},
 						headers: {
 							"Authorization": "Bearer " + sessionStorage.token
 						},
@@ -101,7 +102,7 @@ define(["backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggest
 				}.bind(this),
 				triggerSelectOnValidInput: false,
 				minChars: 2,
-                showNoSuggestionNotice: true,
+				showNoSuggestionNotice: true,
 				noSuggestionNotice: "Sorry, no results found. Please try synonyms or more general terms for your query."
 			});
 			$('.dropdown-toggle', this.$el).dropdown();

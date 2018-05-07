@@ -1,6 +1,6 @@
 <div id="patient-count-box">
-	<div id="patient-spinner" class="spinner spinner-large spinner-large-center" style="position: relative; display: none;"></div>
-	<span id="patient-count" class="blue center large">0</span><br>
+	<span class="center large" id="spinner-total"></span>
+	<span id="patient-count" class="blue center large"></span><br>
 	<span class="center medium">Total Patients</span><br>
 	<div class="container" id="pic-sure-instances">
 	{{#each this}}
@@ -8,7 +8,7 @@
 			<span class="col-md-2"></span>
 			<span class="col-md-4 center">{{name}}</span>
 			<span class="col-md-4 center" id="patient-count-{{id}}"></span>
-			<span class="col-md-2"></span>
+			<span class="col-md-1" id="spinner-{{id}}"></span>
 		</div>
 	{{/each}}
 	</div>
