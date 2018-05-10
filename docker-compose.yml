@@ -1,0 +1,11 @@
+version: '3'
+services:
+  tomcat:
+    build:
+      context: ./tomcat
+      dockerfile: Dockerfile
+    expose:
+      - 8080
+    ports:
+      - 80:8080
+
