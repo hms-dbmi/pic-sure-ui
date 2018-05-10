@@ -1,11 +1,22 @@
 #main-content {
      width: 80%;
+     position: relative;
+     top: 2em;
 }
  #patient-count-box {
      line-height: 1;
      border-width: 1px;
-     border: solid;
+     border-style: solid;
      border-color: lightgrey;
+}
+.query-builder-heading {
+	color: gray;
+}
+.advanced-search-btn {
+	top: 2em;
+}
+.query-name {
+	font-size: 2.5em;
 }
  .large {
      font-size: 5em;
