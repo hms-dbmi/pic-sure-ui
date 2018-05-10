@@ -49,6 +49,18 @@
      border-width: 1px;
      border-radius: 4px;
 }
+.btn:hover {
+    color: #ffffff;
+    background-color: #76a6de;
+}
+.btn-default:hover {
+    color: #ffffff;
+    background-color: #76a6de;
+}
+.btn-default.active:hover {
+    color: #ffffff;
+    background-color: #76a6de;
+}
  #filter-list {
      width: 100%;
 }
