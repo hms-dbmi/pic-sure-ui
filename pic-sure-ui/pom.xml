@@ -62,6 +62,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>pic-sure-ui</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -140,9 +141,9 @@
 						</configuration>
 					</execution>
 					<execution>
-						<!-- NOTE : The standalone.jar is just so Paul can demo at this point.
-							Work should be done to harden it if we decide to use this as
-							a deployment method for production. -->
+						<!-- NOTE : The standalone.jar is just so Paul can demo at this point. 
+							Work should be done to harden it if we decide to use this as a deployment 
+							method for production. -->
 						<id>tomcat-run</id>
 						<goals>
 							<goal>exec-war</goal>
@@ -180,6 +181,43 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<executions>
+					<execution>
+						<id>copy-war-for-docker</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>${project.groupId}</groupId>
+									<artifactId>${project.artifactId}</artifactId>
+									<version>${project.version}</version>
+									<type>${project.packaging}</type>
+									<destFileName>pic-sure-ui.war</destFileName>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>tomcat/build</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>tomcat/build/</directory>
+						</fileset>
+					</filesets>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
