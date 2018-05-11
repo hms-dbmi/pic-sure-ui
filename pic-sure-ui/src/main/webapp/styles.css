@@ -169,18 +169,10 @@
      margin-left: -30px;
 }
  @ -webkit-keyframes spin {
-     0% {
-         -webkit-transform: rotate(0deg);
-    }
-     100% {
-         -webkit-transform : rotate (360 deg);
-    }
+     0% {-webkit-transform: rotate (0deg);}
+     100% {-webkit-transform : rotate (360 deg);}
 }
  @ keyframes spin {
-     0% {
-         transform: rotate(0deg);
-    }
-     100% {
-         transform : rotate (360 deg );
-    }
+     0% {transform: rotate(0deg);}
+     100% {transform : rotate (360 deg );}
 }
