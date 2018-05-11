@@ -1,5 +1,5 @@
-define(["common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "autocomplete"], 
-		function(spinner, BB, HBS, filterTemplate, suggestionTemplate){
+define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "autocomplete"], 
+		function(ontology, spinner, BB, HBS, filterTemplate, suggestionTemplate){
 	var filterModel = BB.Model.extend({
 		defaults:{
 			inclusive: true,
@@ -17,7 +17,11 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "t
 		className: "filter-list-entry row",
 		events: {
 			"selected .search-box" : "onSelect",
-			"hidden.bs.dropdown .dropdown" : "onSelect"
+			"hidden.bs.dropdown .dropdown" : "onSelect",
+			"click dropdown-menu li a" : "onDropdownSelect"
+		},
+		onDropdownSelect : function(event){
+			$("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value, this.$el).text(event.target.text);
 		},
 		onSelect : function(event, suggestion){
 			console.log("selected");
@@ -37,62 +41,11 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "t
 			}
 			this.$el.html(this.template(this.model));
 			var spinnerSelector = this.$el.find(".spinner-div");
+
 			$('.search-box', this.$el).autocomplete({
 				deferRequestBy: 300,
-				lookup: function (query, done) {
-					var result = {};
-					var lookupDeferred = $.Deferred();
-					$.ajax({
-						url: "/" + sessionStorage.environment + "/resourceService/find?term=%25"+query+"%25",
-						success: function(response){
-							console.log(response);
-							result.suggestions = response.map(entry => {
-								var puiSegments = entry.pui.split("/");
-								return {
-									value : entry.name,
-									data : entry.pui,
-									category : puiSegments[3],
-									parent : puiSegments[puiSegments.length-3]
-								};
-							}).sort(function(a, b){
-								if(a.value.startsWith(query)){
-									if(b.value.startsWith(query)){
-										if(a.value < b.value){
-											return -1;
-										}else{
-											return 1;
-										}
-									}else{
-										return -1;
-									}
-								}else{
-									if(b.value.startsWith(query)){
-										return 1;
-									}else{
-										if(a.value < b.value){
-											return -1;
-										}else{
-											return 1;
-										}
-									}
-								}
-							});
-							if(result.length > 100){
-								result = result.slice(0,99);
-							}
-							done(result);
-						},
-						beforeSend: function(){
-							spinner.small(lookupDeferred, spinnerSelector, "search-box-spinner");
-						},
-						complete: function(){
-							lookupDeferred.resolve();
-						},
-						headers: {
-							"Authorization": "Bearer " + sessionStorage.token
-						},
-						dataType: "json"
-					});
+				lookup: function(query, done){
+					spinner.small(ontology.autocomplete(query, done), spinnerSelector, "search-box-spinner");
 				},
 				onSelect: function(suggestion){
 					$(this).trigger("selected", suggestion);
@@ -105,10 +58,9 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "t
 				showNoSuggestionNotice: true,
 				noSuggestionNotice: "Sorry, no results found. Please try synonyms or more general terms for your query."
 			});
+
 			$('.dropdown-toggle', this.$el).dropdown();
-			$('.dropdown-menu li a', this.$el).click(function(event){
-				$("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value, this.$el).text(event.target.text);
-			}.bind(this));
+			this.delegateEvents();
 		}
 	});
 	return {
