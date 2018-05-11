@@ -65,7 +65,7 @@
      width: 100%;
 }
  .filter-list-entry {
-     padding: 10 10 10 10;
+     padding: 10px 10px 10px 10px;
 }
  .filter-row {
      width: 100%;
@@ -168,11 +168,11 @@
      left: 50%;
      margin-left: -30px;
 }
- @ -webkit-keyframes spin {
-     0% {-webkit-transform: rotate (0deg);}
-     100% {-webkit-transform : rotate (360 deg);}
+ @-webkit-keyframes spin {
+     0% {-webkit-transform: rotate(0deg);}
+     100% {-webkit-transform : rotate(360deg);}
 }
- @ keyframes spin {
+ @keyframes spin {
      0% {transform: rotate(0deg);}
-     100% {transform : rotate (360 deg );}
+     100% {transform : rotate(360deg);}
 }
