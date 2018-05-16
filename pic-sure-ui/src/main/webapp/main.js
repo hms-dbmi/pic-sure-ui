@@ -19,8 +19,10 @@ require.config({
 
 require(["filter/filterList", "output/outputPanel", "bootstrap"],
 		function(filterList, output){
-	sessionStorage.token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0fGF2bGJvdEBkYm1pLmhtcy5oYXJ2YXJkLmVkdSIsImVtYWlsIjoiYXZsYm90QGRibWkuaG1zLmhhcnZhcmQuZWR1In0.51TYsm-uw2VtI8aGawdggbGdCSrPJvjtvzafd2Ii9NU";
-	sessionStorage.environment="NHANES";
+	sessionStorage.token="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYW1kZXRzQGdtYWlsLmNvbSIsImlzcyI6ImJhciIsImV4cCI6MTUyOTA4NzUyMiwiaWF0IjoxNTI2NDk1NTIyLCJqdGkiOiJGb28iLCJlbWFpbCI6Im5hbWRldHNAZ21haWwuY29tIn0.YZPEPAypRojxWPwYKYuuChRxuLrPm_Adt316HC8n9hw";
+	$.ajaxSetup({
+		headers: {"Authorization": "Bearer " + sessionStorage.token}
+	});
 
 	console.log("in main");
 	filterList.init();
