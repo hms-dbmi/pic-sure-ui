@@ -36,11 +36,11 @@
 		<url-pattern>/NHANES/*</url-pattern>
 	</servlet-mapping>
     <servlet>
-		<servlet-name>PL</servlet-name>
+		<servlet-name>BCH</servlet-name>
 		<servlet-class>org.mitre.dsmiley.httpproxy.ProxyServlet</servlet-class>
 		<init-param>
 			<param-name>targetUri</param-name>
-			<param-value>https://precisionlink-biobank4discovery-dev.childrens.harvard.edu/rest/v1</param-value>
+			<param-value>https://grin-docker-dev.aws.dbmi.hms.harvard.edu/rest/v1</param-value>
 		</init-param>
 		<init-param>
 			<param-name>log</param-name>
@@ -48,7 +48,7 @@
 		</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>PL</servlet-name>
-		<url-pattern>/PL/*</url-pattern>
+		<servlet-name>BCH</servlet-name>
+		<url-pattern>/BCH/*</url-pattern>
 	</servlet-mapping>
 </web-app>

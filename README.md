@@ -3,13 +3,20 @@
 
 Instructions to launch in dev mode:
 
-Prerequisites: Maven and Java installed and configured.
+Prerequisites: Maven 3+, Java, Docker and docker-compose
 
-mvn tomcat7:run-war
+mvn clean install && docker-compose build && docker-compose up -d
 
-This will download and run Tomcat7 and deploy the app for you. 
+If you make source code changes, just re-run the same command and 
+it will redeploy the stack for you.
 
-Then open your browser at http://localhost:13000
+This was changed from the much shorter maven based deployment to 
+resolve a certificate issue with grin-docker-dev. Once the cert
+issue is resolved the maven tomcat configs will work again.
+
+Then open your browser at http://<docker-machine-ip>
+
+
 
 
 
