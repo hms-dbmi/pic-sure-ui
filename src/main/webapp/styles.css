@@ -43,6 +43,11 @@
      font-size: .7em;
      color: lightblue;
 }
+
+ .autocomplete-term {
+     cursor: pointer;
+ }
+
  .suggestion-container {
      border: solid;
      border-color: lightgrey;
@@ -176,3 +181,33 @@
      0% {transform: rotate(0deg);}
      100% {transform : rotate(360deg);}
 }
+
+.picsure-border-frame {
+    border: 2px solid #e0eeff;
+    border-top: 0px;
+}
+
+.list-group-item {
+    border: none;
+    /* border-bottom: 1px solid #e0eeff !important; */
+}
+
+.filter-result-entry {
+    padding: 5px 10px;
+    background-color: white;
+}
+
+.node-tree-view .icon {
+    color: #65a1e6;
+}
+
+.treeview .list-group-item {
+    border-top: 1px solid #e0eeff;
+    border-radius: 0px !important;
+}
+
+.list-group-item:last-child {
+    margin-bottom: -20px;
+    font-weight: bold;
+}
+
