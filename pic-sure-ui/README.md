@@ -3,7 +3,7 @@
 
 Instructions to launch in dev mode:
 
-Prerequisites: Docker and docker-compose
+Prerequisites: Maven 3+, Java, Docker and docker-compose
 
 mvn clean install && docker-compose build && docker-compose up -d
 
