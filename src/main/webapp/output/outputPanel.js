@@ -22,8 +22,9 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 						$('#patient-count-' + picsureInstance.id).text("Error");						
 						queryCompletionDeferred.resolve();
 					}else{
-						$('#patient-count-' + picsureInstance.id).text(result.data.length);
-						this.totalCount += result.data.length;
+						var count = parseInt(result.data[0][0].patient_set_counts);
+						$('#patient-count-' + picsureInstance.id).text(count);
+						this.totalCount += count;
 						$('#patient-count').text(this.totalCount);
 						queryCompletionDeferred.resolve();
 					}

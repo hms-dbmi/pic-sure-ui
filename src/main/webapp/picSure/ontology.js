@@ -1,9 +1,9 @@
-define([], function(){
+define(["picSure/resourceMeta"], function(resourceMeta){
 	var autocomplete = function(query, done){
 		var result = {};
 		var lookupDeferred = $.Deferred();
 		return $.ajax({
-			url: "/" + sessionStorage.environment + "/resourceService/find?term=%25"+query+"%25",
+			url: window.location.origin + resourceMeta[0].findPath + "?term=%25"+query+"%25",
 			success: function(response){
 				console.log(response);
 				result.suggestions = response.map(entry => {
@@ -50,7 +50,7 @@ define([], function(){
 			},
 			dataType: "json"
 		});
-	}
+	}.bind({resourceMeta:resourceMeta});
 	return {
 		autocomplete: autocomplete
 	};
