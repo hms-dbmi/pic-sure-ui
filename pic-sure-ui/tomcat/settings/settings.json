@@ -1,23 +1,26 @@
 {
   "resources":[
 		{
-			"id" : "NHANES1",
-			"name" : "NHANES 1",
-			"queryPath" : "/NHANES/queryService/runQuery?only_count=true",
-			"queryStatusBasePath" : "/NHANES/resultService/resultStatus/",
-			"queryResultBasePath" : "/NHANES/resultService/result/"
+			"id" : "BCH1",
+			"name" : "BCH 1",
+			"queryPath" : "/BCH/queryService/runQuery",
+			"queryStatusBasePath" : "/BCH/resultService/resultStatus/",
+			"queryResultBasePath" : "/BCH/resultService/result/",
+			"findPath" : "/BCH/resourceService/find"
 		},{
-			"id" : "NHANES2",
-			"name" : "NHANES 2",
-			"queryPath" : "/NHANES/queryService/runQuery?only_count=true",
-			"queryStatusBasePath" : "/NHANES/resultService/resultStatus/",
-			"queryResultBasePath" : "/NHANES/resultService/result/"
+			"id" : "BCH2",
+			"name" : "BCH 2",
+			"queryPath" : "/BCH/queryService/runQuery",
+			"queryStatusBasePath" : "/BCH/resultService/resultStatus/",
+			"queryResultBasePath" : "/BCH/resultService/result/",
+			"findPath" : "/BCH/resourceService/find"
 		},{
-			"id" : "NHANES3",
-			"name" : "NHANES 3",
-			"queryPath" : "/NHANES/queryService/runQuery?only_count=true",
-			"queryStatusBasePath" : "/NHANES/resultService/resultStatus/",
-			"queryResultBasePath" : "/NHANES/resultService/result/"
+			"id" : "BCH3",
+			"name" : "BCH 3",
+			"queryPath" : "/BCH/queryService/runQuery",
+			"queryStatusBasePath" : "/BCH/resultService/resultStatus/",
+			"queryResultBasePath" : "/BCH/resultService/result/",
+			"findPath" : "/BCH/resourceService/find"
 		}
 		]
 }
