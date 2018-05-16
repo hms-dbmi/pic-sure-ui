@@ -6,10 +6,18 @@ services:
       dockerfile: Dockerfile
     expose:
       - 8080
-    ports:
-      - 80:8080
     volumes:
       - settings:/opt/settings
+  httpd:
+    build:
+      context: ./httpd
+      dockerfile: Dockerfile
+    expose:
+      - 80
+      - 443
+    ports:
+      - 80:80
+      - 443:443
 volumes:
   settings:
     external: true

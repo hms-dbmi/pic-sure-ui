@@ -71,10 +71,6 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			}
 		},
 		render: function(){
-			if(!(sessionStorage.token && sessionStorage.environment)){
-				alert("You must set sessionStorage.environment to either \"NHANES\" or \"PL\" and sessionStorage.token to a valid PIC-SURE token for NHANES or PL-Dev");
-				return;
-			}
 			this.$el.html(this.template(this.model));
 			var spinnerSelector = this.$el.find(".spinner-div");
 
