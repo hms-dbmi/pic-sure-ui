@@ -11,7 +11,7 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 					return {
 						value : entry.name,
 						data : entry.pui,
-						category : puiSegments[3],
+						category : puiSegments[5],
 						parent : puiSegments[puiSegments.length-3]
 					};
 				}).sort(function(a, b){
@@ -44,9 +44,6 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 			}.bind({done:done}),
 			complete: function(){
 				lookupDeferred.resolve();
-			},
-			headers: {
-				"Authorization": "Bearer " + sessionStorage.token
 			},
 			dataType: "json"
 		});

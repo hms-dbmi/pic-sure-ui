@@ -8,20 +8,21 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult"],
 	};
     searchResults.addSearchResultRow = function(data, filterView, queryCallback){
 		var categories = [];
-		data.forEach((value,key) => {
+		var searchResultList = this.searchResultList;
+		_.keys(data).forEach((key) => {
             categories.push(key);
 
-			for (var i in value) {
+            _.each(data[key], function(value){
                 var newSearchResultRow = new searchResult.View({
                     queryCallback : queryCallback,
-                    model : new searchResult.Model(value[i]),
+                    model : new searchResult.Model(value),
                     filterView: filterView
                 });
                 newSearchResultRow.render();
-                this.searchResultList.push(newSearchResultRow);
+                searchResultList.push(newSearchResultRow);
 
                 $('.search-results', filterView.$el).append(newSearchResultRow.$el);
-			}
+            });
     	})
 
 	}.bind(searchResults);

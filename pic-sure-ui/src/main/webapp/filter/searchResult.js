@@ -1,5 +1,5 @@
-define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hbs", "picSure/queryCache"],
-    function(spinner, BB, HBS, searchResultTemplate, queryCache){
+define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hbs"],
+    function(spinner, BB, HBS, searchResultTemplate){
         var searchResultModel = BB.Model.extend({
 
         });
