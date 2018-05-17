@@ -1,16 +1,34 @@
-define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult"],
-		function(outputPanel, queryBuilder, searchResult){
+define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "handlebars", "text!filter/searchResultTabs.hbs"],
+		function(outputPanel, queryBuilder, searchResult, HBS, searchResultTabsTemplate){
 	var searchResults = {
 		init : function(data, view, callback){
 			this.searchResultList = [];
+            this.searchResultTabs = HBS.compile(searchResultTabsTemplate);
 			this.addSearchResultRow(data, view, callback);
+
 		}
 	};
     searchResults.addSearchResultRow = function(data, filterView, queryCallback){
 		var categories = [];
 		var searchResultList = this.searchResultList;
+		var categoryCount = 0;
+        $('.search-tabs', filterView.$el).append(this.searchResultTabs());
+
 		_.keys(data).forEach((key) => {
             categories.push(key);
+
+            var classActive = categoryCount == 0 ? 'active' : '';
+
+            var tab = '<li class="' + classActive + '"><a href="#'
+                + key
+                + '" data-toggle="tab" aria-expanded="true">'
+                + key
+                + '</a></li>';
+
+            var tabContent = '<div class="tab-pane ' + classActive + '" id="'+ key + '"></div>';
+
+            $('.nav-pills', filterView.$el).append(tab);
+            $('.tab-content', filterView.$el).append(tabContent);
 
             _.each(data[key], function(value){
                 var newSearchResultRow = new searchResult.View({
@@ -21,8 +39,9 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult"],
                 newSearchResultRow.render();
                 searchResultList.push(newSearchResultRow);
 
-                $('.search-results', filterView.$el).append(newSearchResultRow.$el);
+                $('.tab-pane', filterView.$el).append(newSearchResultRow.$el);
             });
+            categoryCount++;
     	})
 
 	}.bind(searchResults);
