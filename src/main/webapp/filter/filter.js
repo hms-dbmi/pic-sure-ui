@@ -86,7 +86,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 					return this.suggestionTemplate(suggestion);
 				}.bind(this),
 				triggerSelectOnValidInput: false,
-				minChars: 2,
+				minChars: 3,
 				showNoSuggestionNotice: true,
 				noSuggestionNotice: "Sorry, no results found. Please try synonyms or more general terms for your query."
 			});
