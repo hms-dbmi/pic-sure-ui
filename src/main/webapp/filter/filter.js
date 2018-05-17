@@ -1,4 +1,4 @@
-define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "autocomplete"],
+define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "autocomplete", "bootstrap"],
 		function(ontology, spinner, BB, HBS, filterTemplate, suggestionTemplate, searchResults, queryCache){
 	var filterModel = BB.Model.extend({
 		defaults:{
@@ -36,7 +36,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
         },
 		searchTerm : function(term) {
             var deferredSearchResults = $.Deferred();
-            queryCache.findTerm(term, deferredSearchResults);
+            ontology.autocomplete(term, deferredSearchResults.resolve);
             $.when(deferredSearchResults).then(this.showSearchResults);
 		},
         showSearchResults : function(result) {
@@ -44,7 +44,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 				alert("Result error");
             } else {
                 $('.search-results', this.$el).html('');
-                searchResults.init(result, this, this.queryCallback);
+                searchResults.init(_.groupBy(result.suggestions, "category"), this, this.queryCallback);
 
             }
         },
