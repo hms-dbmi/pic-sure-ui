@@ -79,6 +79,11 @@
      background-color: rgb(223, 238, 255);
      padding: 10px;
 }
+
+ .filter-search {
+     background-color: rgb(223, 238, 255);
+ }
+
  .filter-boolean-operator-btn {
      background-color: #4a90e2;
      color: white;
@@ -210,4 +215,23 @@
     margin-bottom: -20px;
     font-weight: bold;
 }
+
+.tab-row {
+    margin-right: -10px;
+    margin-left: -10px;
+}
+
+.nav-pills {
+    padding: 10px;
+}
+
+.nav-pills>li {
+    padding-right: 10px;
+}
+
+.nav>li>a {
+    padding: 5px;
+}
+
+
 

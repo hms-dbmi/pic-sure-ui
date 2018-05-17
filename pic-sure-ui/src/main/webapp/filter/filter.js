@@ -43,7 +43,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			if(result == undefined) {
 				alert("Result error");
             } else {
-                $('.search-results', this.$el).html('');
+                $('.search-tabs', this.$el).html('');
                 searchResults.init(_.groupBy(result.suggestions, "category"), this, this.queryCallback);
 
             }
