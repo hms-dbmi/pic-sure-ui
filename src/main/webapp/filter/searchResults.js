@@ -28,6 +28,7 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "han
 	    	});
 	    	
         $("#"+_.first(_.keys(data))).addClass("active");
+        $(".nav-pills li:first-child").addClass("active");
 
     }.bind(searchResults);
     searchResults.runQuery = function(){
