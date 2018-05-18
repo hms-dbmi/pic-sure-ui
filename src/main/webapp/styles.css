@@ -48,12 +48,20 @@
      cursor: pointer;
  }
 
- .suggestion-container {
-     border: solid;
-     border-color: lightgrey;
-     border-width: 1px;
-     border-radius: 4px;
+.autocomplete-suggestions {
+    overflow-y: auto;;
+    border-bottom: 1px solid lightgrey;
 }
+
+.suggestion-container {
+    border: solid;
+    border-top: 0px;
+    border-color: lightgrey;
+    border-width: 1px;
+    background-color: white;
+    padding: 5px;
+}
+
 .btn:hover {
     color: #ffffff;
     background-color: #76a6de;
@@ -188,7 +196,7 @@
 }
 
 .picsure-border-frame {
-    border: 2px solid #e0eeff;
+    border: 2px solid rgb(223, 238, 255);
     border-top: 0px;
 }
 
@@ -207,7 +215,7 @@
 }
 
 .treeview .list-group-item {
-    border-top: 1px solid #e0eeff;
+    border-top: 1px solid rgb(223, 238, 255);
     border-radius: 0px !important;
 }
 
@@ -219,6 +227,12 @@
 .tab-row {
     margin-right: -10px;
     margin-left: -10px;
+}
+
+.tab-pane {
+    overflow-y: auto;
+    max-height: 300px;
+    border-bottom: 1px solid rgb(223, 238, 255);
 }
 
 .nav-pills {
@@ -233,5 +247,21 @@
     padding: 5px;
 }
 
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 
 
