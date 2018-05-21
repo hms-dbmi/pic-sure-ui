@@ -8,6 +8,7 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 				value : entry.name,
 				data : entry.pui,
 				category : puiSegments[5],
+				tooltip : entry.attributes.tooltip,
 				parent : puiSegments[puiSegments.length-3]
 			};
 		}).sort(function(a, b){
