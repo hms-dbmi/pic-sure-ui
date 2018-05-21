@@ -1,4 +1,5 @@
-define(["picSure/resourceMeta"], function(resourceMeta){
+define(["text!settings/settings.json"], function(settings){
+	var resourceMeta = JSON.parse(settings).resources;
 	var mapResponseToResult = function(query, response){
 		var result = {};
 		console.log(response);
@@ -23,19 +24,32 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 	};
 
 	var autocomplete = function(query, done){
-		var lookupDeferred = $.Deferred();
 		return $.ajax({
 			url: window.location.origin + resourceMeta[0].findPath + "?term=%25"+query+"%25",
 			success: function(response){
 				done(mapResponseToResult(query, response));
 			}.bind({done:done}),
-			complete: function(){
-				lookupDeferred.resolve();
-			},
 			dataType: "json"
 		});
 	}.bind({resourceMeta:resourceMeta});
+
+	var verifyPathsExist = function(paths, targetResource, done){
+		return $.ajax({
+			url: window.location.origin + targetResource.pathPath,
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(paths),
+			success: function(response){
+				done(true);
+			},
+			error: function(response){
+				done(false);
+			}
+		});
+	};
+
 	return {
-		autocomplete: autocomplete
+		autocomplete: autocomplete,
+		verifyPathsExist: verifyPathsExist
 	};
 });

@@ -1,5 +1,6 @@
-define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", "picSure/queryCache", "backbone", "handlebars"], 
-	function(spinner, outputTemplate, resourceMeta, queryCache, BB, HBS){
+define(["common/spinner", "text!output/outputPanel.hbs","text!settings/settings.json", "picSure/ontology", "picSure/queryCache", "backbone", "handlebars"], 
+	function(spinner, outputTemplate, settings, ontology, queryCache, BB, HBS){
+	var resourceMeta = JSON.parse(settings).resources;
 	var outputView = BB.View.extend({
 		initialize: function(){
 			this.template = HBS.compile(outputTemplate);
@@ -19,7 +20,7 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 				$('#patient-count-' + picsureInstance.id).text("");
 				
 				var dataCallback = function(result){
-					if(result == undefined){
+					if(result == undefined || result.status=="ERROR"){
 						$('#patient-count-' + picsureInstance.id).text("Error");						
 						queryCompletionDeferred.resolve();
 					}else{
@@ -35,15 +36,21 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 					whereClause.field.pui = whereClause.field.pui.replace(/(\/[\w-]+){4}/, picsureInstance.basePui);
 				});
 
-				queryCache.submitQuery(
-						picsureInstance,
-						query,
-						picsureInstance.id,
-						dataCallback);
-				$.when(queryCompletionDeferred).then(function(){
-					console.log("deferred resolved");
-					if(atLeastOneResultComplete.state() == "pending"){
-						atLeastOneResultComplete.resolve();
+				ontology.verifyPathsExist(_.pluck(_.pluck(query.where, 'field'), 'pui'), picsureInstance, function(allPathsExist){
+					if(allPathsExist){
+						queryCache.submitQuery(
+								picsureInstance,
+								query,
+								picsureInstance.id,
+								dataCallback);
+						$.when(queryCompletionDeferred).then(function(){
+							console.log("deferred resolved");
+							if(atLeastOneResultComplete.state() == "pending"){
+								atLeastOneResultComplete.resolve();
+							}
+						});
+					}else{
+						dataCallback({data:[[{patient_set_counts:0}]]});
 					}
 				});
 			}.bind(this));		
