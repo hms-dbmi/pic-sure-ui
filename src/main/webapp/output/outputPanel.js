@@ -31,9 +31,13 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 					}
 				}.bind(this);
 
+<<<<<<< HEAD
 				_.each(query.where, function(whereClause){
 					whereClause.field.pui = whereClause.field.pui.replace(/(\/[\w-]+){4}/, picsureInstance.basePui);
 				});
+=======
+				query.where[0].field.pui = query.where[0].field.pui.replace(/(\/[\w-]+){4}/, picsureInstance.basePui);
+>>>>>>> 976e3696e09b6a746abb4c2b2c9b227ed4f00bc8
 
 				queryCache.submitQuery(
 						picsureInstance,

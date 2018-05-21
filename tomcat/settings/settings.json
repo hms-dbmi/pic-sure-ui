@@ -6,21 +6,24 @@
 			"queryPath" : "/BCH/queryService/runQuery",
 			"queryStatusBasePath" : "/BCH/resultService/resultStatus/",
 			"queryResultBasePath" : "/BCH/resultService/result/",
-			"findPath" : "/BCH/resourceService/find"
+			"findPath" : "/BCH/resourceService/find",
+			"basePui" : "/i2b2-grin-dev-countonly/Demo/GRIN/GRIN"
 		},{
-			"id" : "BCH2",
-			"name" : "BCH 2",
-			"queryPath" : "/BCH/queryService/runQuery",
-			"queryStatusBasePath" : "/BCH/resultService/resultStatus/",
-			"queryResultBasePath" : "/BCH/resultService/result/",
-			"findPath" : "/BCH/resourceService/find"
+			"id" : "CCHMC",
+			"name" : "CCHMC",
+			"queryPath" : "/CCHMC/queryService/runQuery",
+			"queryStatusBasePath" : "/CCHMC/resultService/resultStatus/",
+			"queryResultBasePath" : "/CCHMC/resultService/result/",
+			"findPath" : "/CCHMC/resourceService/find",
+			"basePui" : "/i2b2-cchmc/grin/GRIN_DIAG/GRIN"
 		},{
 			"id" : "BCH3",
 			"name" : "BCH 3",
 			"queryPath" : "/BCH/queryService/runQuery",
 			"queryStatusBasePath" : "/BCH/resultService/resultStatus/",
 			"queryResultBasePath" : "/BCH/resultService/result/",
-			"findPath" : "/BCH/resourceService/find"
+			"findPath" : "/BCH/resourceService/find",
+			"basePui" : "/i2b2-grin-dev-countonly/Demo/GRIN/GRIN"
 		}
 		]
 }
