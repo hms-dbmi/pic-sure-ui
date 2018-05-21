@@ -1,4 +1,4 @@
-define(['jquery','underscore'], function($, _){
+define(['picSure/ontology', 'jquery','underscore'], function(ontology, $, _){
 	
 	var runningQueryIds = {};
 	
@@ -50,12 +50,8 @@ define(['jquery','underscore'], function($, _){
 				}
 			});
 		}
-
-		if(runningQueryIds[displayName]===undefined){
-			initiateQuery();
-		}else{
-			initiateQuery();
-		}
+		
+		initiateQuery();
 	};
 
 	return {
