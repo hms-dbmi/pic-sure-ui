@@ -14,6 +14,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			this.suggestionTemplate = HBS.compile(suggestionTemplate);
 			this.queryCallback = opts.queryCallback;
             this.showSearchResults = this.showSearchResults.bind(this);
+            this.removeFilter = opts.removeFilter;
 		},
 		tagName: "div",
 		className: "filter-list-entry row",
@@ -21,7 +22,9 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			"selected .search-box" : "onAutocompleteSelect",
 			"hidden.bs.dropdown .dropdown" : "onAutocompleteSelect",
 			"click dropdown-menu li a" : "onDropdownSelect",
-            "keyup input.search-box" : "enterButtonEventHandler"
+            "keyup input.search-box" : "enterButtonEventHandler",
+            "click .delete": "destroyFilter",
+            "click .edit": "editFilter"
 		},
         enterButtonEventHandler : function(event){
             if(event.keyCode == 13){
@@ -70,8 +73,18 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 				this.queryCallback();				
 			}
 		},
+        editFilter : function(){
+            this.$el.removeClass("saved");
+        },
+        destroyFilter: function () {
+            this.undelegateEvents();
+            this.$el.removeData().unbind();
+            this.remove();
+            this.removeFilter(this.cid);
+
+        },
 		render: function(){
-			this.$el.html(this.template(this.model));
+			this.$el.html(this.template(this.model.attributes));
 			var spinnerSelector = this.$el.find(".spinner-div");
 
 			$('.search-box', this.$el).autocomplete({

@@ -11,7 +11,8 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 		$('.filter-boolean-operator').removeClass('hidden');
 		var newFilter = new filter.View({
 			queryCallback : this.runQuery,
-			model : new filter.Model()
+			model : new filter.Model(),
+			removeFilter : this.removeFilter,
 		});
 		newFilter.render();
 		this.filters.push(newFilter);
@@ -29,6 +30,20 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 			this.addFilter();			
 		}
 
+	}.bind(filterList);
+	filterList.removeFilter = function (cid) {
+        var indexToRemove;
+        for (var i = 0; i < this.filters.length; i++) {
+            if (this.filters[i].cid === cid) {
+                indexToRemove = i;
+                break;
+            }
+		}
+		// now remove view from list
+		if (typeof indexToRemove != 'undefined') {
+            this.filters.splice(indexToRemove, 1);
+        }
+        this.runQuery();
 	}.bind(filterList);
 
 	return filterList;
