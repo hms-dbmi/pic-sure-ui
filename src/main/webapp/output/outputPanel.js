@@ -29,7 +29,9 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 						queryCompletionDeferred.resolve();
 					}
 				}.bind(this);
-				
+
+				query.where[0].field.pui = query.where[0].field.pui.replace(/(\/[\w-]+){4}/, picsureInstance.basePui);
+
 				queryCache.submitQuery(
 						picsureInstance,
 						query,

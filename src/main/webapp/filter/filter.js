@@ -43,7 +43,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			if(result == undefined) {
 				alert("Result error");
             } else {
-                $('.search-results', this.$el).html('');
+                $('.search-tabs', this.$el).html('');
                 searchResults.init(_.groupBy(result.suggestions, "category"), this, this.queryCallback);
 
             }
@@ -86,7 +86,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 					return this.suggestionTemplate(suggestion);
 				}.bind(this),
 				triggerSelectOnValidInput: false,
-				minChars: 2,
+				minChars: 3,
 				showNoSuggestionNotice: true,
 				noSuggestionNotice: "Sorry, no results found. Please try synonyms or more general terms for your query."
 			});

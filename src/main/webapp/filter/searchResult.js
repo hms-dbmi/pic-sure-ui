@@ -12,7 +12,7 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
                 this.queryCallback = opts.queryCallback;
             },
             tagName: "div",
-            className: "picsure-border-frame row",
+            className: "picsure-border-frame",
             events: {
                 "click .autocomplete-term" : "onClick",
                 "click .pui-elipses" : "toggleTree"
@@ -33,7 +33,7 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
                     var pui = $('.pui-elipses', this.$el).data('pui');
                     this.filterView.model.set("searchTerm", pui);
                     // hide search results
-                    $('.search-results', this.filterView.$el).html('');
+                    $('.search-tabs', this.filterView.$el).html('');
                 }
                 if(this.filterView.model.get("searchTerm").trim().length > 0){
                     this.queryCallback();
