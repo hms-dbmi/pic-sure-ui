@@ -25,7 +25,7 @@ define(['jquery','underscore'], function($, _){
 						break;
 					case "ERROR":
 						// Query failed
-						dataCallback(undefined);
+						dataCallback(data);
 						break;
 					default : 
 						console.log("UNKNOWN QUERY STATUS : " + data.status);
