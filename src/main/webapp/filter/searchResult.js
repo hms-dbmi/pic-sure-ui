@@ -48,7 +48,7 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
 
                 var finalTree = [];
                 var lastNode;
-                for (var i = puiSegments.length - 1; i > throwawaySegments; i--){
+                for (var i = puiSegments.length - 1; i >= throwawaySegments; i--){
                     var puiSegment = puiSegments[i];
 
                     if (puiSegment.length > 0) {
