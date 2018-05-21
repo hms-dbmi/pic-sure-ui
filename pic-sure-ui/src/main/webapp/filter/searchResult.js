@@ -42,12 +42,13 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
 
             },
             render: function(){
-
-                var puiSegments = this.model.attributes.data.split("/");
+                var isNotStandardI2b2 = this.model.get("data").indexOf("~") == -1;
+                var throwawaySegments = isNotStandardI2b2 ? 6 : 0;
+                var puiSegments = this.model.get("data").indexOf("~") == -1 ? this.model.get("data").split("/") : this.model.get("tooltip").split("\\");
 
                 var finalTree = [];
                 var lastNode;
-                for (var i = puiSegments.length - 1; i > 3; i--){
+                for (var i = puiSegments.length - 1; i > throwawaySegments; i--){
                     var puiSegment = puiSegments[i];
 
                     if (puiSegment.length > 0) {
