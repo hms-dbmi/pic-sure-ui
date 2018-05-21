@@ -6,13 +6,14 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 		},
 		totalCount: 0,
 		tagName: "div",
-		update: function(query){
+		update: function(incomingQuery){
 			this.totalCount = 0;
 			var view = this;
 			var atLeastOneResultComplete = $.Deferred();
 			spinner.medium(atLeastOneResultComplete, "#spinner-total");
 			_.each(resourceMeta, function(picsureInstance){
 				var queryCompletionDeferred = $.Deferred();
+				var query = JSON.parse(JSON.stringify(incomingQuery));
 				spinner.small(queryCompletionDeferred, "#spinner-" + picsureInstance.id);
 				
 				$('#patient-count-' + picsureInstance.id).text("");
@@ -29,7 +30,11 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 						queryCompletionDeferred.resolve();
 					}
 				}.bind(this);
-				
+
+				_.each(query.where, function(whereClause){
+					whereClause.field.pui = whereClause.field.pui.replace(/(\/[\w-]+){4}/, picsureInstance.basePui);
+				});
+
 				queryCache.submitQuery(
 						picsureInstance,
 						query,
