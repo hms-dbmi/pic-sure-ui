@@ -56,7 +56,7 @@ define(['jquery','underscore'], function($, _){
 		}else{
 			initiateQuery();
 		}
-	}
+	};
 
 	return {
 		submitQuery : submitQuery

@@ -60,6 +60,11 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap-treeview</artifactId>
+			<version>1.2.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>pic-sure-ui</finalName>
