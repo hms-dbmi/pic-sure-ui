@@ -47,6 +47,9 @@ define(['picSure/ontology', 'jquery','underscore'], function(ontology, $, _){
 						checkStatus(runningQueryIds[displayName], stillRunning);				
 					};
 					stillRunning();
+				},
+				error: function(data, status, jqXHR){
+					dataCallback(data);
 				}
 			});
 		}
