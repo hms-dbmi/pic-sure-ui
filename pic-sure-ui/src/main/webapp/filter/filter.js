@@ -19,8 +19,8 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 		className: "filter-list-entry row",
 		events: {
 			"selected .search-box" : "onAutocompleteSelect",
-			"hidden.bs.dropdown .dropdown" : "onAutocompleteSelect",
-			"click dropdown-menu li a" : "onDropdownSelect",
+			"hidden.bs.dropdown .autocomplete-suggestions .dropdown" : "onAutocompleteSelect",
+			"click .dropdown-menu li a" : "onDropdownSelect",
             "keyup input.search-box" : "enterButtonEventHandler"
 		},
         enterButtonEventHandler : function(event){
@@ -50,6 +50,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
         },
 		onDropdownSelect : function(event){
 			$("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value, this.$el).text(event.target.text);
+			this.onSelect(event);
 		},
 		onAutocompleteSelect : function (event, suggestion) {
             if(suggestion && suggestion.value && suggestion.value.trim().length > 0){

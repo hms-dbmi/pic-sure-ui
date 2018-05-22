@@ -16,14 +16,16 @@ define([], function(){
 		var query = {
 				where: []
 		};
+		var lastFilter = undefined;
 		_.each(filters, function(filter){
 			if(filter.get("searchTerm").trim().length !== 0){
 				query.where.push(
 						createWhere(filter.get("searchTerm"), 
 								filter.get("inclusive") ? 
-										(filter.get("and") ? "AND" : "OR") 
-										: "NOT"));				
+										(lastFilter && lastFilter.get("and") ? "AND" : "OR")
+										: "NOT"));
 			}
+			lastFilter = filter;
 		});
 		return query;
 	};
