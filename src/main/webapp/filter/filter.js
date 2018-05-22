@@ -52,8 +52,10 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
             }
         },
 		onDropdownSelect : function(event){
-			$("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value, this.$el).text(event.target.text);
-			this.onSelect(event);
+			var dropdownElement = $("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value, this.$el);
+            dropdownElement.text(event.target.text);
+            dropdownElement.append(' <span class="caret"></span>');
+            this.onSelect(event);
 		},
 		onAutocompleteSelect : function (event, suggestion) {
             if(suggestion && suggestion.value && suggestion.value.trim().length > 0){

@@ -4,12 +4,12 @@
             <div class="filter-qualifier col-md-3">
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle filter-qualifier-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Must Have
+                        {{#if inclusive}}Must Have{{else}}Must Not Have{{/if}}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="filter-qualifier-btn">
-                        <li><a class="dropdown-item {{#if inclusive}}active{{/if}}" href="#">Must Have</a></li>
-                        <li><a class="dropdown-item {{#if inclusive}}{{else}}active{{/if}}" href="#">Must Not Have</a></li>
+                        <li><a class="dropdown-item" href="#">Must Have</a></li>
+                        <li><a class="dropdown-item" href="#">Must Not Have</a></li>
                     </ul>
                 </div>
             </div>

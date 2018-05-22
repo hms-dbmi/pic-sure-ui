@@ -9,19 +9,23 @@ define(["common/spinner", "text!output/outputPanel.hbs","text!settings/settings.
 		tagName: "div",
 		update: function(incomingQuery){
 			this.totalCount = 0;
-			var view = this;
+
+			if (incomingQuery.where.length == 0) {
+           		this.render();
+           		return;
+            }
 			var atLeastOneResultComplete = $.Deferred();
 			spinner.medium(atLeastOneResultComplete, "#spinner-total");
 			_.each(resourceMeta, function(picsureInstance){
 				var queryCompletionDeferred = $.Deferred();
 				var query = JSON.parse(JSON.stringify(incomingQuery));
 				spinner.small(queryCompletionDeferred, "#spinner-" + picsureInstance.id);
-				
+
 				$('#patient-count-' + picsureInstance.id).text("");
-				
+
 				var dataCallback = function(result){
 					if(result == undefined || result.status=="ERROR"){
-						$('#patient-count-' + picsureInstance.id).text("Error");						
+						$('#patient-count-' + picsureInstance.id).text("Error");
 						queryCompletionDeferred.resolve();
 					}else{
 						var count = parseInt(result.data[0][0].patient_set_counts);
