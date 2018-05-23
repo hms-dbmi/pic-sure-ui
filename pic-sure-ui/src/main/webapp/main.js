@@ -9,7 +9,7 @@ require.config({
 		backbone: 'webjars/backbonejs/1.3.3/backbone-min',
 		text: 'webjars/requirejs-text/2.0.15/text',
 		handlebars: 'webjars/handlebars/4.0.5/handlebars.min',
-		treeview: '/webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min'
+		treeview: 'webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min'
 	},
 	shim: {
 		"bootstrap": {
