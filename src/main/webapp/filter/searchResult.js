@@ -32,13 +32,16 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
                     $('input.search-box', this.filterView.$el).val($('.autocomplete-term', this.$el).text());
                     var pui = $('.pui-elipses', this.$el).data('pui');
                     this.filterView.model.set("searchTerm", pui);
-                    // hide search results
-                    $('.search-tabs', this.filterView.$el).html('');
+                    this.filterView.model.set("searchValue", this.model.get("value"));
+                    this.filterView.model.set("category", this.model.get("category"));
+
+                    this.filterView.$el.addClass("saved");
+                    this.filterView.render();
+                    $('.filter-boolean-operator', this.filterView.$el).removeClass('hidden');
                 }
                 if(this.filterView.model.get("searchTerm").trim().length > 0){
                     this.queryCallback();
                 }
-
 
             },
             render: function(){
