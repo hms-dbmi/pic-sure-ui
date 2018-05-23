@@ -14,6 +14,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			this.suggestionTemplate = HBS.compile(suggestionTemplate);
 			this.queryCallback = opts.queryCallback;
             this.showSearchResults = this.showSearchResults.bind(this);
+            this.removeFilter = opts.removeFilter;
 		},
 		tagName: "div",
 		className: "filter-list-entry row",
@@ -21,6 +22,8 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			"selected .search-box" : "onAutocompleteSelect",
 			"hidden.bs.dropdown .autocomplete-suggestions .dropdown" : "onAutocompleteSelect",
 			"click .dropdown-menu li a" : "onDropdownSelect",
+            "click .delete": "destroyFilter",
+            "click .edit": "editFilter",
             "keyup input.search-box" : "enterButtonEventHandler"
 		},
         enterButtonEventHandler : function(event){
@@ -49,8 +52,10 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
             }
         },
 		onDropdownSelect : function(event){
-			$("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value, this.$el).text(event.target.text);
-			this.onSelect(event);
+			var dropdownElement = $("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value, this.$el);
+            dropdownElement.text(event.target.text);
+            dropdownElement.append(' <span class="caret"></span>');
+            this.onSelect(event);
 		},
 		onAutocompleteSelect : function (event, suggestion) {
             if(suggestion && suggestion.value && suggestion.value.trim().length > 0){
@@ -71,8 +76,18 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 				this.queryCallback();				
 			}
 		},
+        editFilter : function(){
+            this.$el.removeClass("saved");
+        },
+        destroyFilter: function () {
+            this.undelegateEvents();
+            this.$el.removeData().unbind();
+            this.remove();
+            this.removeFilter(this.cid);
+
+        },
 		render: function(){
-			this.$el.html(this.template(this.model));
+			this.$el.html(this.template(this.model.attributes));
 			var spinnerSelector = this.$el.find(".spinner-div");
 
 			$('.search-box', this.$el).autocomplete({
