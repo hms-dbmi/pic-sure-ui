@@ -52,13 +52,12 @@ define(["common/spinner", "text!output/outputPanel.hbs","text!settings/settings.
 				var dataCallback = function(result){
 					if(result == undefined || result.status=="ERROR"){
 						this.model.get("resources")[picsureInstance.id].patientCount = 0;
-						this.model.get("resources")[picsureInstance.id].spinning = false;
 					}else{
 						var count = parseInt(result.data[0][0].patient_set_counts);
 						this.model.get("resources")[picsureInstance.id].patientCount = count;
-						this.model.get("resources")[picsureInstance.id].spinning = false;
 						this.model.set("totalPatients", this.model.get("totalPatients") + count);
 					}
+					this.model.get("resources")[picsureInstance.id].spinning = false;
 					if(_.every(this.model.get('resources'), (resource)=>{return resource.spinning==false})){
 						this.model.set("spinning", false);
 					}
