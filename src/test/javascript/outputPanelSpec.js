@@ -17,8 +17,8 @@ define(["output/outputPanel", "jquery", "text!defaults/settings.json", "undersco
 				outputPanel.View.render();
 			});
 			
-			it("displays ? for a main patient count.", function(){
-				expect($('#patient-count', outputPanel.View.$el).html()).toBe("?");
+			it("displays < 10 for a main patient count.", function(){
+				expect($('#patient-count', outputPanel.View.$el).text()).toBe("< 10");
 			});
 			
 			it("provides a main spinner", function(){
@@ -33,12 +33,10 @@ define(["output/outputPanel", "jquery", "text!defaults/settings.json", "undersco
 					});
 			
 					it("provides a spinner for resource " + resource.name, function(){
-						expect($('#spinner-' + resource.id, outputPanel.View.$el).html()).toBeDefined();						
+						expect($('#spinner-' + resource.id, outputPanel.View.$el).html()).toBeDefined();
 					});
-				
 				});
 			});
-			
 		});
 	});
 });

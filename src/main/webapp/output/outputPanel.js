@@ -1,6 +1,39 @@
 define(["common/spinner", "text!output/outputPanel.hbs","text!settings/settings.json", "picSure/ontology", "picSure/queryCache", "backbone", "handlebars"], 
-	function(spinner, outputTemplate, settings, ontology, queryCache, BB, HBS){
+		function(spinner, outputTemplate, settings, ontology, queryCache, BB, HBS){
 	var resourceMeta = JSON.parse(settings).resources;
+
+	HBS.registerHelper("outputPanel_obfuscate", function(count){
+		if(count < 10){
+			return "< 10";
+		} else {
+			return count;
+		}
+	});
+
+	var outputModelDefaults = {
+			totalPatients : 0,
+			spinnerClasses: "spinner-medium spinner-medium-center ",
+			spinning: false,
+			resources : {}
+	};
+	_.each(resourceMeta, (resource) => {
+		outputModelDefaults.resources[resource.id] = {
+				id: resource.id,
+				name: resource.name,
+				patientCount: 0,
+				spinnerClasses: "spinner-center ",
+				spinning: false
+		};
+	});
+	var outputModel = BB.Model.extend({
+		defaults: outputModelDefaults,
+		spinAll: function(){
+			this.set('spinning', true);
+			_.each(this.get('resources'), function(resource){
+				resource.spinning=true;
+			});
+		}
+	});
 	var outputView = BB.View.extend({
 		initialize: function(){
 			this.template = HBS.compile(outputTemplate);
@@ -8,32 +41,28 @@ define(["common/spinner", "text!output/outputPanel.hbs","text!settings/settings.
 		totalCount: 0,
 		tagName: "div",
 		update: function(incomingQuery){
-			this.totalCount = 0;
-
-			if (incomingQuery.where.length == 0) {
-           		this.render();
-           		return;
-            }
-			var atLeastOneResultComplete = $.Deferred();
-			spinner.medium(atLeastOneResultComplete, "#spinner-total");
+			this.model.set("totalPatients",0);
+			this.model.spinAll();
+			this.render();
 			_.each(resourceMeta, function(picsureInstance){
-				var queryCompletionDeferred = $.Deferred();
-				var query = JSON.parse(JSON.stringify(incomingQuery));
-				spinner.small(queryCompletionDeferred, "#spinner-" + picsureInstance.id);
 
-				$('#patient-count-' + picsureInstance.id).text("");
+				// make a safe deep copy of the incoming query so we don't modify it
+				var query = JSON.parse(JSON.stringify(incomingQuery));
 
 				var dataCallback = function(result){
 					if(result == undefined || result.status=="ERROR"){
-						$('#patient-count-' + picsureInstance.id).text("Error");
-						queryCompletionDeferred.resolve();
+						this.model.get("resources")[picsureInstance.id].patientCount = 0;
+						this.model.get("resources")[picsureInstance.id].spinning = false;
 					}else{
 						var count = parseInt(result.data[0][0].patient_set_counts);
-						$('#patient-count-' + picsureInstance.id).text(count);
-						this.totalCount += count;
-						$('#patient-count').text(this.totalCount);
-						queryCompletionDeferred.resolve();
+						this.model.get("resources")[picsureInstance.id].patientCount = count;
+						this.model.get("resources")[picsureInstance.id].spinning = false;
+						this.model.set("totalPatients", this.model.get("totalPatients") + count);
 					}
+					if(_.every(this.model.get('resources'), (resource)=>{return resource.spinning==false})){
+						this.model.set("spinning", false);
+					}
+					this.render();
 				}.bind(this);
 
 				_.each(query.where, function(whereClause){
@@ -47,28 +76,19 @@ define(["common/spinner", "text!output/outputPanel.hbs","text!settings/settings.
 								query,
 								picsureInstance.id,
 								dataCallback);
-						$.when(queryCompletionDeferred).then(function(){
-							console.log("deferred resolved");
-							if(atLeastOneResultComplete.state() == "pending"){
-								atLeastOneResultComplete.resolve();
-							}
-						});
 					}else{
-						dataCallback({data:[[{patient_set_counts:0}]]});
+						dataCallback({data:[[{patient_set_counts: 0}]]});
 					}
 				});
 			}.bind(this));		
 		},
 		render: function(){
-			this.$el.html(this.template(resourceMeta));
-			if(this.totalCount == 0){
-				$('#patient-count', this.$el).html("?");
-			}else{
-				$('#patient-count', this.$el).html(this.totalCount);
-			}
+			this.$el.html(this.template(this.model.toJSON()));
 		}
 	});
 	return {
-		View : new outputView()
+		View : new outputView({
+			model: new outputModel()
+		})
 	}
 });

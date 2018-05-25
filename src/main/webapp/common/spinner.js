@@ -1,6 +1,8 @@
 define(["text!common/spinner.hbs", "handlebars"], function(template, HBS){
 	var template = HBS.compile(template);
 	
+	HBS.registerPartial("spinner", template);
+	
 	var createSpinner = function(deferredAction, targetDivSelector, classes){
 		$.when(deferredAction).then(function(){
 			if(typeof targetDivSelector === "function"){
