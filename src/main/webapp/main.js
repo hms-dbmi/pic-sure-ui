@@ -10,7 +10,7 @@ require.config({
 		text: 'webjars/requirejs-text/2.0.15/text',
 		handlebars: 'webjars/handlebars/4.0.5/handlebars.min',
 		treeview: 'webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min',
-		"auth0-lock": "webjars/auth0-lock/11.2.3/build/lock"
+		'auth0-js': "//cdn.auth0.com/js/auth0/9.5.1/auth0"
 	},
 	shim: {
 		"bootstrap": {
@@ -19,8 +19,9 @@ require.config({
 		"treeview": {
 			deps:["bootstrap"]
 		},
-		"jquery": {
-			exports: "jQuery"
+		"auth0-js": {
+			deps:["jquery"],
+			exports: "Auth0Lock"
 		}
 	}
 });
