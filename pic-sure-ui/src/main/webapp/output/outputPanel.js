@@ -42,6 +42,15 @@ define(["common/spinner", "text!output/outputPanel.hbs","text!settings/settings.
 		tagName: "div",
 		update: function(incomingQuery){
 			this.model.set("totalPatients",0);
+            if (incomingQuery.where.length == 0) {
+                //clear the model
+                _.each(resourceMeta, function(picsureInstance){
+                    var test = picsureInstance;
+                    this.model.get("resources")[picsureInstance.id].patientCount = 0;
+                }.bind(this));
+                this.render();
+                return;
+            }
 			this.model.spinAll();
 			this.render();
 			_.each(resourceMeta, function(picsureInstance){
