@@ -9,7 +9,8 @@ require.config({
 		backbone: 'webjars/backbonejs/1.3.3/backbone-min',
 		text: 'webjars/requirejs-text/2.0.15/text',
 		handlebars: 'webjars/handlebars/4.0.5/handlebars.min',
-		treeview: 'webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min'
+		treeview: 'webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min',
+		"auth0-lock": "webjars/auth0-lock/11.2.3/build/lock"
 	},
 	shim: {
 		"bootstrap": {
@@ -17,11 +18,13 @@ require.config({
 		},
 		"treeview": {
 			deps:["bootstrap"]
+		},
+		"jquery": {
+			exports: "jQuery"
 		}
 	}
 });
 
-require(["common/startup"],
-		function(filterList, output){
+require(["common/startup"], function(){
 	
 });
