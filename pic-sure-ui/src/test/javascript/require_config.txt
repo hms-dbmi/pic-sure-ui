@@ -14,7 +14,8 @@ paths: {
 	picSure: 'picSure',
 	output: 'output',
 	settings: 'defaults',
-	treeview: '../webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min'
+	treeview: '../webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min',
+		'auth': "testAuth"
 },
 shim: {
 	"bootstrap": {
@@ -22,5 +23,9 @@ shim: {
 	},
 	"treeview": {
 		deps:["bootstrap"]
-	}
+	},
+		"auth0-js": {
+			deps:["jquery"],
+			exports: "Auth0Lock"
+		}
 }
