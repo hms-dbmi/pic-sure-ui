@@ -22,7 +22,7 @@ define([], function(){
 				query.where.push(
 						createWhere(filter.get("searchTerm"), 
 								filter.get("inclusive") ? 
-										(lastFilter && lastFilter.get("and") ? "AND" : "OR")
+										(lastFilter ? (lastFilter.get("and") ? "AND" : "OR") : "AND")
 										: "NOT"));
 			}
 			lastFilter = filter;

@@ -21,8 +21,6 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 	filterList.runQuery = function(){
 		var query = queryBuilder.createQuery(
 				_.pluck(this.filters, "model"));
-        $('#patient-count').html("");
-        $('#patient-spinner').show();
 		outputPanel.View.update(query);
 		if(_.countBy(this.filters, function(filter){
 			return filter.model.get("searchTerm").trim() === "" ? "empty" : "notEmpty";

@@ -9,7 +9,8 @@ require.config({
 		backbone: 'webjars/backbonejs/1.3.3/backbone-min',
 		text: 'webjars/requirejs-text/2.0.15/text',
 		handlebars: 'webjars/handlebars/4.0.5/handlebars.min',
-		treeview: '/webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min'
+		treeview: 'webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min',
+		'auth0-js': "//cdn.auth0.com/js/auth0/9.5.1/auth0"
 	},
 	shim: {
 		"bootstrap": {
@@ -17,21 +18,14 @@ require.config({
 		},
 		"treeview": {
 			deps:["bootstrap"]
+		},
+		"auth0-js": {
+			deps:["jquery"],
+			exports: "Auth0Lock"
 		}
 	}
 });
 
-require(["filter/filterList", "output/outputPanel", "treeview"],
-		function(filterList, output){
-	sessionStorage.token="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYW1kZXRzQGdtYWlsLmNvbSIsImlzcyI6ImJhciIsImV4cCI6MTUyNzg5MDc3MiwiaWF0IjoxNTI3Mjg1OTcyLCJqdGkiOiJGb28iLCJlbWFpbCI6Im5hbWRldHNAZ21haWwuY29tIn0.iYku2PnJIMdgW8PEOxoDIzFGNQUCm2mJ8tqtuv1-0xU";
-	$.ajaxSetup({
-		headers: {"Authorization": "Bearer " + sessionStorage.token}
-	});
-
-	console.log("in main");
-	filterList.init();
-	var outputPanel = output.View;
-	outputPanel.render();
-	$('#query-results').append(outputPanel.$el);
+require(["common/startup"], function(){
 	
 });
