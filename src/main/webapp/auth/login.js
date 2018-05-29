@@ -1,65 +1,46 @@
-define(['auth0-js', 'jquery'], function(Auth0Lock, $){
-	return function(){
-		var content = $('.content');
+define(['common/searchParser', 'auth0-js', 'jquery', 'handlebars', 'text!auth/login.hbs'], 
+		function(parseQueryString, Auth0Lock, $, HBS, loginTemplate){
+	
+	var loginTemplate = HBS.compile(loginTemplate);
 
-		var lock = new Auth0Lock.WebAuth(
-				
-				{
-				    domain: "avillachlab.auth0.com",
-				    clientID: "b9GoG1H2PESf03JFqSZXAVEFatOEIMWM",
-				    redirectUri: origin,
-				    audience: 'https://' + "avillachlab.auth0.com" + '/userinfo',
-				    responseType: 'token id_token',
-				    scope: 'openid email'
-				  }
-		);
+	var loginCss = null
+	$.get("https://avillachlab.us.webtask.io/connection_details_base64?webtask_no_cache=1&css=true",function(css){
+		loginCss = "<style>" + css + "</style";
+	});
+	
+	var login = {
+		showLoginPage : function(){			
+			var queryObject = parseQueryString();
 
-		function login() {
-			lock.authorize();
+			var webtaskBaseUrl = "https://avillachlab.us.webtask.io/connection_details_base64/";
+
+			if(typeof queryObject.access_token === "string" && typeof queryObject.id_token === "string"){
+
+				var expiresAt = JSON.stringify(
+						queryObject.expires_in * 1000 + new Date().getTime()
+				);
+				localStorage.setItem('access_token', queryObject.access_token);
+				localStorage.setItem('id_token', queryObject.id_token);
+				localStorage.setItem('expires_at', expiresAt);
+				window.location = "/";
+			}else{
+				$.ajax("https://avillachlab.us.webtask.io/connection_details_base64/?webtask_no_cache=1&client_id=b9GoG1H2PESf03JFqSZXAVEFatOEIMWM", 
+						{
+					dataType: "text",
+						success : function(scriptResponse){
+							var script = scriptResponse.replace('responseType : "code"', 'responseType : "token"');
+							$('#main-content').html(loginTemplate({
+								buttonScript : script,
+								clientId : "b9GoG1H2PESf03JFqSZXAVEFatOEIMWM",
+								auth0Subdomain : "avillachlab",
+								callbackURL : window.location.protocol + "//"+ window.location.hostname + (window.location.port ? ":"+window.location.port : "") +"/login"
+							}));
+							$('#main-content').append(loginCss);
+						}
+				});				
+			}
 		}
-
-		function setSession(authResult) {
-			// Set the time that the access token will expire at
-			var expiresAt = JSON.stringify(
-					authResult.expiresIn * 1000 + new Date().getTime()
-			);
-			localStorage.setItem('access_token', authResult.accessToken);
-			localStorage.setItem('id_token', authResult.idToken);
-			localStorage.setItem('expires_at', expiresAt);
-		}
-
-		function logout() {
-			// Remove tokens and expiry time from localStorage
-			localStorage.removeItem('access_token');
-			localStorage.removeItem('id_token');
-			localStorage.removeItem('expires_at');
-			displayButtons();
-		}
-
-		function isAuthenticated() {
-			// Check whether the current time is past the
-			// access token's expiry time
-			var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-			return new Date().getTime() < expiresAt;
-		}
-
-		lock.parseHash(function(err, authResult) {
-				if (authResult && authResult.accessToken && authResult.idToken) {
-					window.location.hash = '';
-					setSession(authResult);
-					$.ajaxSetup({
-						headers: {"Authorization": "Bearer " + localStorage.id_token}
-					});
-				} else if (err) {
-					console.log(err);
-					alert(
-							'Error: ' + err.error + '. Check the console for further details.'
-					);
-				}
-				if(!isAuthenticated()){
-					login();					
-				}
-			});
-		};
+	};
+	return login;
 });
 
