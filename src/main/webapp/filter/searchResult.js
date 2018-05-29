@@ -33,7 +33,7 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
                     var pui = $('.pui-elipses', this.$el).data('pui');
                     this.filterView.model.set("searchTerm", pui);
                     this.filterView.model.set("searchValue", this.model.get("value"));
-                    this.filterView.model.set("category", this.model.get("category"));
+                    this.filterView.model.set("category", this.model.get('category') + " > " +this.model.get('data').split('/').slice(6,this.model.get('data').split('/').length-2).join(" > "));
 
                     this.filterView.$el.addClass("saved");
                     this.filterView.render();

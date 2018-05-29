@@ -23,7 +23,7 @@ require.config({
 
 require(["filter/filterList", "output/outputPanel", "treeview"],
 		function(filterList, output){
-	sessionStorage.token="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYW1kZXRzQGdtYWlsLmNvbSIsImlzcyI6ImJhciIsImV4cCI6MTUyOTA4NzUyMiwiaWF0IjoxNTI2NDk1NTIyLCJqdGkiOiJGb28iLCJlbWFpbCI6Im5hbWRldHNAZ21haWwuY29tIn0.YZPEPAypRojxWPwYKYuuChRxuLrPm_Adt316HC8n9hw";
+	sessionStorage.token="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYW1kZXRzQGdtYWlsLmNvbSIsImlzcyI6ImJhciIsImV4cCI6MTUyNzg5MDc3MiwiaWF0IjoxNTI3Mjg1OTcyLCJqdGkiOiJGb28iLCJlbWFpbCI6Im5hbWRldHNAZ21haWwuY29tIn0.iYku2PnJIMdgW8PEOxoDIzFGNQUCm2mJ8tqtuv1-0xU";
 	$.ajaxSetup({
 		headers: {"Authorization": "Bearer " + sessionStorage.token}
 	});

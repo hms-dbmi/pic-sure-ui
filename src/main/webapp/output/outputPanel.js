@@ -25,7 +25,7 @@ define(["common/spinner", "text!output/outputPanel.hbs","text!settings/settings.
 
 				var dataCallback = function(result){
 					if(result == undefined || result.status=="ERROR"){
-						$('#patient-count-' + picsureInstance.id).text("Error");
+						$('#patient-count-' + picsureInstance.id).text("Timeout");
 						queryCompletionDeferred.resolve();
 					}else{
 						var count = parseInt(result.data[0][0].patient_set_counts);
