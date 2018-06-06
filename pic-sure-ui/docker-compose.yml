@@ -1,13 +1,5 @@
 version: '3'
 services:
-  tomcat:
-    build:
-      context: ./tomcat
-      dockerfile: Dockerfile
-    expose:
-      - 8080
-    volumes:
-      - settings:/opt/settings
   httpd:
     build:
       context: ./httpd
@@ -18,6 +10,8 @@ services:
     ports:
       - 80:80
       - 443:443
+    volumes:
+      - settings:/usr/local/apache2/htdocs/settings
 volumes:
   settings:
     external: true
