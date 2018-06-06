@@ -3,8 +3,14 @@ FROM httpd:2.4.27-alpine
 RUN apk add --update openssl sed
 
 # Replace virtual host config file with ours
-# hackathon specific
 COPY httpd-vhosts.conf ${HTTPD_PREFIX}/conf/extra/httpd-vhosts.conf
+
+# Copy in the webapp files
+COPY pic-sure-ui-webapp.zip ${HTTPD_PREFIX}
+RUN unzip ${HTTPD_PREFIX}/pic-sure-ui-webapp.zip -d ${HTTPD_PREFIX}/
+
+RUN cp -r ${HTTPD_PREFIX}/pic-sure-ui/* ${HTTPD_PREFIX}/htdocs
+
 
 # Enable virtual hosting config file
 RUN sed -i '/^#Include conf.extra.httpd-vhosts.conf/s/^#//' ${HTTPD_PREFIX}/conf/httpd.conf
