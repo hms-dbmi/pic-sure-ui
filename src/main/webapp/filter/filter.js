@@ -4,8 +4,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 		defaults:{
 			inclusive: true,
 			searchTerm: "",
-			and: true,
-			theList: null
+			and: true
 		}
 	});
 	var filterView = BB.View.extend({
