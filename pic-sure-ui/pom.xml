@@ -66,6 +66,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.webjars.bower</groupId>
+			<artifactId>auth0.js</artifactId>
+			<version>9.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
 			<artifactId>auth0-lock</artifactId>
 			<version>11.2.3</version>
 		</dependency>
@@ -74,24 +79,6 @@
 		<finalName>pic-sure-ui</finalName>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.tomcat.maven</groupId>
-					<artifactId>tomcat7-maven-plugin</artifactId>
-					<version>2.0</version>
-					<executions>
-						<execution>
-							<id>default-cli</id>
-							<goals>
-								<goal>run</goal>
-							</goals>
-							<configuration>
-								<port>13000</port>
-								<path>/</path>
-								<useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -125,94 +112,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>reserve-network-port</id>
-						<goals>
-							<goal>reserve-network-port</goal>
-						</goals>
-						<phase>process-test-resources</phase>
-						<configuration>
-							<portNames>
-								<portName>test.server.port</portName>
-							</portNames>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>start-tomcat</id>
-						<goals>
-							<goal>run-war</goal>
-						</goals>
-						<phase>pre-integration-test</phase>
-						<configuration>
-							<port>${test.server.port}</port>
-							<path>/</path>
-							<fork>true</fork>
-							<useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-tomcat</id>
-						<goals>
-							<goal>shutdown</goal>
-						</goals>
-						<phase>post-integration-test</phase>
-						<configuration>
-							<path>/</path>
-						</configuration>
-					</execution>
-					<execution>
-						<!-- NOTE : The standalone.jar is just so Paul can demo at this point. 
-							Work should be done to harden it if we decide to use this as a deployment 
-							method for production. -->
-						<id>tomcat-run</id>
-						<goals>
-							<goal>exec-war</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<path>/</path>
-							<enableNaming>false</enableNaming>
-							<finalName>standalone.jar</finalName>
-							<charset>utf-8</charset>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.20</version>
-				<executions>
-					<execution>
-						<id>integration-test</id>
-						<goals>
-							<goal>integration-test</goal>
-						</goals>
-						<configuration>
-							<systemPropertyVariables>
-								<service.url>http://localhost:${test.server.port}/</service.url>
-							</systemPropertyVariables>
-						</configuration>
-					</execution>
-					<execution>
-						<id>verify</id>
-						<goals>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.8</version>
@@ -227,25 +126,6 @@
 							<outputDirectory>${project.build.directory}/webjars</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-war-for-docker</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>${project.groupId}</groupId>
-									<artifactId>${project.artifactId}</artifactId>
-									<version>${project.version}</version>
-									<type>${project.packaging}</type>
-									<destFileName>pic-sure-ui.war</destFileName>
-								</artifactItem>
-							</artifactItems>
-							<outputDirectory>tomcat/build</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -269,17 +149,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>tomcat/build/</directory>
-						</fileset>
-					</filesets>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

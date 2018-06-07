@@ -11,7 +11,6 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - settings:/usr/local/apache2/htdocs/settings
-volumes:
-  settings:
-    external: true
+      - ./src/main/webapp:/usr/local/apache2/htdocs
+      - ./target/webjars/META-INF/resources/webjars:/usr/local/apache2/htdocs/webjars
+      - ./src/main/resources:/usr/local/apache2/htdocs/settings
