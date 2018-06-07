@@ -27,6 +27,9 @@ define(["text!settings/settings.json"], function(settings){
 	var autocomplete = function(query, done){
 		return $.ajax({
 			url: window.location.origin + resourceMeta[0].findPath + "?term=%25"+query+"%25",
+			error: function(response){
+				console.log(response);
+			},
 			success: function(response){
                                   var categoricalPaths = [];
        	       			  _.each(response, function(value){
