@@ -3,11 +3,7 @@
 		{
 			"id" : "BCH1",
 			"name" : "BCH 1",
-			"queryPath" : "/picsure/queryService/runQuery",
-			"queryStatusBasePath" : "/picsure/resultService/resultStatus/",
-			"queryResultBasePath" : "/picsure/resultService/result/",
-			"pathPath" : "/picsure/resourceService/jsonPath",
-			"findPath" : "/picsure/resourceService/find",
+			"basePath" : "/picsure",
 			"basePui" : "/i2b2-grin-dev-countonly/Demo/GRIN/GRIN"
 		}
 		]

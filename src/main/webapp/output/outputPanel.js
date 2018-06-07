@@ -1,7 +1,5 @@
-define(["common/spinner", "text!output/outputPanel.hbs","text!settings/settings.json", "picSure/ontology", "picSure/queryCache", "backbone", "handlebars"], 
-		function(spinner, outputTemplate, settings, ontology, queryCache, BB, HBS){
-	var resourceMeta = JSON.parse(settings).resources;
-
+define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", "picSure/ontology", "picSure/queryCache", "backbone", "handlebars"],
+		function(spinner, outputTemplate, resourceMeta, ontology, queryCache, BB, HBS){
 	HBS.registerHelper("outputPanel_obfuscate", function(count){
 		if(count < 10){
 			return "< 10";

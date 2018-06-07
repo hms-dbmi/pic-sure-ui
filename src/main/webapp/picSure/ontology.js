@@ -1,5 +1,4 @@
-define(["text!settings/settings.json"], function(settings){
-	var resourceMeta = JSON.parse(settings).resources;
+define(["picSure/resourceMeta"], function(resourceMeta){
 	var mapResponseToResult = function(query, response){
 		var result = {};
 		console.log(response);
@@ -26,6 +25,7 @@ define(["text!settings/settings.json"], function(settings){
 	var autocomplete = function(query, done){
 		return $.ajax({
 			url: window.location.origin + resourceMeta[0].findPath + "?term=%25"+query+"%25",
+			headers: {"Authorization": "Bearer " + localStorage.getItem("id_token")},
 			success: function(response){
 				done(mapResponseToResult(query, response));
 			}.bind({done:done}),
@@ -37,6 +37,7 @@ define(["text!settings/settings.json"], function(settings){
 		return $.ajax({
 			url: window.location.origin + targetResource.pathPath,
 			type: 'POST',
+			headers: {"Authorization": "Bearer " + localStorage.getItem("id_token")},
 			contentType: 'application/json',
 			data: JSON.stringify(paths),
 			success: function(response){
