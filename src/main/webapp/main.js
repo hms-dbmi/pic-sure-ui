@@ -10,7 +10,7 @@ require.config({
 		text: 'webjars/requirejs-text/2.0.15/text',
 		handlebars: 'webjars/handlebars/4.0.5/handlebars.min',
 		treeview: 'webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min',
-		'auth0-js': "//cdn.auth0.com/js/auth0/9.5.1/auth0"
+		'auth0-js': "webjars/auth0.js/9.2.3/build/auth0"
 	},
 	shim: {
 		"bootstrap": {

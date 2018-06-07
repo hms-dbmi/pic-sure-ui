@@ -5,13 +5,6 @@ RUN apk add --update openssl sed
 # Replace virtual host config file with ours
 COPY httpd-vhosts.conf ${HTTPD_PREFIX}/conf/extra/httpd-vhosts.conf
 
-# Copy in the webapp files
-COPY pic-sure-ui-webapp.zip ${HTTPD_PREFIX}
-RUN unzip ${HTTPD_PREFIX}/pic-sure-ui-webapp.zip -d ${HTTPD_PREFIX}/
-
-RUN cp -r ${HTTPD_PREFIX}/pic-sure-ui/* ${HTTPD_PREFIX}/htdocs
-
-
 # Enable virtual hosting config file
 RUN sed -i '/^#Include conf.extra.httpd-vhosts.conf/s/^#//' ${HTTPD_PREFIX}/conf/httpd.conf
 
@@ -22,7 +15,6 @@ RUN sed -i '/^#LoadModule proxy_connect_module/s/^#//' ${HTTPD_PREFIX}/conf/http
 
 #### SSL ####
 # enable ssl
-#RUN sed -i '/^#Include conf/extra/httpd-ssl.conf/s/^#//' ${HTTPD_PREFIX}/conf/httpd.conf
 RUN sed -i '/^#LoadModule ssl_module modules\/mod_ssl.so/s/^#//' ${HTTPD_PREFIX}/conf/httpd.conf
 RUN sed -i '/^#LoadModule rewrite_module modules\/mod_rewrite.so/s/^#//' ${HTTPD_PREFIX}/conf/httpd.conf
 RUN sed -i '/^#LoadModule socache_shmcb_module modules\/mod_socache_shmcb.so/s/^#//' ${HTTPD_PREFIX}/conf/httpd.conf
