@@ -8,7 +8,6 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "han
 		}
 	};
     searchResults.addSearchResultRows = function(data, filterView, queryCallback){
-		var searchResultList = this.searchResultList;
 		$('.search-tabs', filterView.$el).append(this.searchResultTabs(_.keys(data)));
 
 		_.keys(data).forEach((key) => {
@@ -20,7 +19,7 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "han
                     filterView: filterView
                 });
                 newSearchResultRow.render();
-                searchResultList.push(newSearchResultRow);
+
                 categorySearchResultViews.push(newSearchResultRow);
             });
            $('#'+key+'.tab-pane', filterView.$el).append(_.pluck(categorySearchResultViews, "$el"));
@@ -30,19 +29,6 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "han
         $(".nav-pills li:first-child").addClass("active");
 
     }.bind(searchResults);
-    searchResults.runQuery = function(){
-        var query = queryBuilder.createQuery(
-            _.pluck(this.filters, "model"));
-        $('#patient-count').html("");
-        $('#patient-spinner').show();
-        outputPanel.View.update(query);
-        if(_.countBy(this.filters, function(filter){
-                return filter.model.get("searchTerm").trim() === "" ? "empty" : "notEmpty";
-            }).empty == undefined){
-            this.addFilter();
-        }
 
-    }.bind(searchResults);
-
-	return searchResults;
+    return searchResults;
 });
