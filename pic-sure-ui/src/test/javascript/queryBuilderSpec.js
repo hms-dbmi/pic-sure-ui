@@ -1,6 +1,12 @@
 define(["picSure/queryBuilder", "filter/filter", "jquery"],  function(queryBuilder, filter, $) {
 	jasmine.pp = function(obj){return JSON.stringify(obj, undefined, 2);};
 	describe("queryBuilder", function() {
+		describe("as a module", function(){
+			it("is an object with a function called createQuery", function(){
+				expect(typeof queryBuilder.createQuery).toEqual("function");
+			});
+		});
+		
 		it("generates a properly formed query when a single pui is selected and is not a negation", function() {
 			var expectedQuery = 
 			{

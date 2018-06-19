@@ -1,5 +1,5 @@
-define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "autocomplete", "bootstrap"],
-		function(ontology, spinner, BB, HBS, filterTemplate, suggestionTemplate, searchResults, queryCache){
+define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "overrides/filter", "autocomplete", "bootstrap"],
+		function(ontology, spinner, BB, HBS, filterTemplate, suggestionTemplate, searchResults, queryCache, overrides){
 	var filterModel = BB.Model.extend({
 		defaults:{
 			inclusive: true,
@@ -12,8 +12,8 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			this.template = HBS.compile(filterTemplate);
 			this.suggestionTemplate = HBS.compile(suggestionTemplate);
 			this.queryCallback = opts.queryCallback;
-            this.showSearchResults = this.showSearchResults.bind(this);
-            this.removeFilter = opts.removeFilter;
+			this.showSearchResults = this.showSearchResults.bind(this);
+			this.removeFilter = opts.removeFilter;
 		},
 		tagName: "div",
 		className: "filter-list-entry row",
@@ -21,49 +21,50 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			"selected .search-box" : "onAutocompleteSelect",
 			"hidden.bs.dropdown .autocomplete-suggestions .dropdown" : "onAutocompleteSelect",
 			"click .dropdown-menu li a" : "onDropdownSelect",
-            "click .delete": "destroyFilter",
-            "click .edit": "editFilter",
-            "keyup input.search-box" : "enterButtonEventHandler"
+			"click .delete": "destroyFilter",
+			"click .edit": "editFilter",
+			"keyup input.search-box" : "enterButtonEventHandler"
 		},
-        enterButtonEventHandler : function(event){
-            if(event.keyCode == 13){
-                var term = $('input.search-box', this.$el).val();
-
-                if(term && term.length > 0){
-                    this.model.set("searchTerm", term);
-                    this.searchTerm(term);
-                }
-
-            }
-        },
+		enterButtonEventHandler : function(event){
+			if(event.keyCode == 13){
+				overrides.enterKeyHandler ? overrides.enterKeyHandler.apply(this) 
+						: function(){
+							var term = $('input.search-box', this.$el).val();
+							if(term && term.length > 0){
+								this.model.set("searchTerm", term);
+								this.searchTerm(term);
+							}
+						}
+			}
+		},
 		searchTerm : function(term) {
-            var deferredSearchResults = $.Deferred();
-            ontology.autocomplete(term, deferredSearchResults.resolve);
-            $.when(deferredSearchResults).then(this.showSearchResults);
+			var deferredSearchResults = $.Deferred();
+			ontology.autocomplete(term, deferredSearchResults.resolve);
+			$.when(deferredSearchResults).then(this.showSearchResults);
 		},
-        showSearchResults : function(result) {
+		showSearchResults : function(result) {
 			if(result == undefined) {
 				alert("Result error");
-            } else {
-                $('.search-tabs', this.$el).html('');
-                searchResults.init(_.groupBy(result.suggestions, "category"), this, this.queryCallback);
+			} else {
+				$('.search-tabs', this.$el).html('');
+				searchResults.init(_.groupBy(result.suggestions, "category"), this, this.queryCallback);
 
-            }
-        },
+			}
+		},
 		onDropdownSelect : function(event){
 			var dropdownElement = $("."+event.target.parentElement.parentElement.attributes['aria-labelledby'].value, this.$el);
-            dropdownElement.text(event.target.text);
-            dropdownElement.append(' <span class="caret"></span>');
-            this.onSelect(event);
+			dropdownElement.text(event.target.text);
+			dropdownElement.append(' <span class="caret"></span>');
+			this.onSelect(event);
 		},
 		onAutocompleteSelect : function (event, suggestion) {
-            if(suggestion && suggestion.value && suggestion.value.trim().length > 0){
+			if(suggestion && suggestion.value && suggestion.value.trim().length > 0){
 				this.searchTerm(suggestion.value);
-            }
-            else {
-            	console.error('Search term is missing, cannot search');
 			}
-        },
+			else {
+				console.error('Search term is missing, cannot search');
+			}
+		},
 		onSelect : function(event, suggestion){
 			console.log("selected");
 			this.model.set("inclusive", $('.filter-qualifier-btn', this.$el).text().trim() === "Must Have");
@@ -75,16 +76,16 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 				this.queryCallback();				
 			}
 		},
-        editFilter : function(){
-            this.$el.removeClass("saved");
-        },
-        destroyFilter: function () {
-            this.undelegateEvents();
-            this.$el.removeData().unbind();
-            this.remove();
-            this.removeFilter(this.cid);
+		editFilter : function(){
+			this.$el.removeClass("saved");
+		},
+		destroyFilter: function () {
+			this.undelegateEvents();
+			this.$el.removeData().unbind();
+			this.remove();
+			this.removeFilter(this.cid);
 
-        },
+		},
 		render: function(){
 			this.$el.html(this.template(this.model.attributes));
 			var spinnerSelector = this.$el.find(".spinner-div");
@@ -108,7 +109,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 
 			$('.dropdown-toggle', this.$el).dropdown();
 
- 			this.delegateEvents();
+			this.delegateEvents();
 		}
 	});
 	return {

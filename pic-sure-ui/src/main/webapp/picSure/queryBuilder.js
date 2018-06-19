@@ -29,8 +29,6 @@ define([], function(){
 		});
 		return query;
 	};
-	
-
 	return {
 		createQuery
 	}

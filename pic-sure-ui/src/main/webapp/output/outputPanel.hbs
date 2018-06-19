@@ -1,13 +1,13 @@
 <div id="patient-count-box">
 	<span class="center large" id="spinner-total">{{#if spinning}}{{> spinner spinnerClasses}}{{/if}}</span>
-	<span id="patient-count" class="blue center large">{{outputPanel_obfuscate totalPatients}}</span><br>
+	<span id="patient-count" class="blue center large">{{#if queryRan}}{{#if countDisplayOverride}}{{> (countDisplayOverride) totalPatients}}{{else}}{{outputPanel_obfuscate totalPatients}}{{/if}}{{else}}-{{/if}}</span><br>
 	<span class="center medium">Total Patients</span><br>
 	<div class="container" id="pic-sure-instances">
 	{{#each resources}}
 		<div class="row">
 			<span class="col-md-1"></span>
 			<span class="col-md-5 right">{{name}}</span>
-			<span class="col-md-5 left" id="patient-count-{{id}}">{{outputPanel_obfuscate  patientCount}}</span>
+			<span class="col-md-5 left" id="patient-count-{{id}}">{{#if queryRan}}{{#if ../countDisplayOverride}}{{> (../countDisplayOverride) patientCount}}{{else}}{{outputPanel_obfuscate  patientCount}}{{/if}}{{else}}-{{/if}}</span>
 			<span class="col-md-1" id="spinner-{{id}}">{{#if spinning}}{{> spinner spinnerClasses}}{{/if}}</span>
 		</div>
 	{{/each}}

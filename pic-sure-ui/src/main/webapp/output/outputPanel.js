@@ -1,5 +1,5 @@
-define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", "picSure/ontology", "picSure/queryCache", "backbone", "handlebars"],
-		function(spinner, outputTemplate, resourceMeta, ontology, queryCache, BB, HBS){
+define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", "picSure/ontology", "picSure/queryCache", "backbone", "handlebars", "overrides/outputPanel"],
+		function(spinner, outputTemplate, resourceMeta, ontology, queryCache, BB, HBS, overrides){
 	HBS.registerHelper("outputPanel_obfuscate", function(count){
 		if(count < 10){
 			return "< 10";
@@ -27,27 +27,31 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 		defaults: outputModelDefaults,
 		spinAll: function(){
 			this.set('spinning', true);
+			this.set('queryRan', false);
 			_.each(this.get('resources'), function(resource){
 				resource.spinning=true;
+				resource.queryRan=false;
 			});
 		}
 	});
-	var outputView = BB.View.extend({
+	var outputView = overrides.viewOverride ? overrides.viewOverride : BB.View.extend({
 		initialize: function(){
 			this.template = HBS.compile(outputTemplate);
+			overrides.renderOverride ? this.render = overrides.renderOverride.bind(this) : undefined;
+			overrides.update ? this.update = overrides.update.bind(this) : undefined;
 		},
 		totalCount: 0,
 		tagName: "div",
 		update: function(incomingQuery){
 			this.model.set("totalPatients",0);
-            if (incomingQuery.where.length == 0) {
-                //clear the model
-                _.each(resourceMeta, function(picsureInstance){
-                    this.model.get("resources")[picsureInstance.id].patientCount = 0;
-                }.bind(this));
-                this.render();
-                return;
-            }
+			if (incomingQuery.where.length == 0) {
+				//clear the model
+				_.each(resourceMeta, function(picsureInstance){
+					this.model.get("resources")[picsureInstance.id].patientCount = 0;
+				}.bind(this));
+				this.render();
+				return;
+			}
 			this.model.spinAll();
 			this.render();
 			_.each(resourceMeta, function(picsureInstance){
@@ -60,12 +64,14 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 						this.model.get("resources")[picsureInstance.id].patientCount = 0;
 					}else{
 						var count = parseInt(result.data[0][0].patient_set_counts);
+						this.model.get("resources")[picsureInstance.id].queryRan = true;
 						this.model.get("resources")[picsureInstance.id].patientCount = count;
 						this.model.set("totalPatients", this.model.get("totalPatients") + count);
 					}
 					this.model.get("resources")[picsureInstance.id].spinning = false;
 					if(_.every(this.model.get('resources'), (resource)=>{return resource.spinning==false})){
 						this.model.set("spinning", false);
+						this.model.set("queryRan", true);
 					}
 					this.render();
 				}.bind(this);
@@ -88,7 +94,8 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 			}.bind(this));		
 		},
 		render: function(){
-			this.$el.html(this.template(this.model.toJSON()));
+			var context = this.model.toJSON();
+			this.$el.html(this.template(Object.assign({},context , overrides)));
 		}
 	});
 	return {

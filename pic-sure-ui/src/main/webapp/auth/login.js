@@ -1,5 +1,5 @@
-define(['common/searchParser', 'auth0-js', 'jquery', 'handlebars', 'text!auth/login.hbs'], 
-		function(parseQueryString, Auth0Lock, $, HBS, loginTemplate){
+define(['common/searchParser', 'auth0-js', 'jquery', 'handlebars', 'text!auth/login.hbs', 'overrides/login'], 
+		function(parseQueryString, Auth0Lock, $, HBS, loginTemplate, overrides){
 	
 	var loginTemplate = HBS.compile(loginTemplate);
 
@@ -14,7 +14,9 @@ define(['common/searchParser', 'auth0-js', 'jquery', 'handlebars', 'text!auth/lo
 
 			var webtaskBaseUrl = "https://avillachlab.us.webtask.io/connection_details_base64/";
 
-			if(typeof queryObject.access_token === "string" && typeof queryObject.id_token === "string"){
+			var userIsAuthorized = overrides.authorization ? overrides.authorization(queryObject) : true;
+			
+			if(userIsAuthorized && typeof queryObject.access_token === "string" && typeof queryObject.id_token === "string"){
 
 				var expiresAt = JSON.stringify(
 						queryObject.expires_in * 1000 + new Date().getTime()
@@ -35,6 +37,7 @@ define(['common/searchParser', 'auth0-js', 'jquery', 'handlebars', 'text!auth/lo
 								auth0Subdomain : "avillachlab",
 								callbackURL : window.location.protocol + "//"+ window.location.hostname + (window.location.port ? ":"+window.location.port : "") +"/login"
 							}));
+							overrides.postRender ? overrides.postRender.apply(this) : undefined;
 							$('#main-content').append(loginCss);
 						}
 				});				

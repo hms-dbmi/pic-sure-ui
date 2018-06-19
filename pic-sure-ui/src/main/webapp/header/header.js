@@ -1,5 +1,5 @@
-define(["backbone","handlebars", "text!header/header.hbs"], 
-		function(BB, HBS, template){
+define(["backbone","handlebars", "text!header/header.hbs", "overrides/header"], 
+		function(BB, HBS, template, overrides){
 	var headerView = BB.View.extend({
 		initialize : function(){
 			this.template = HBS.compile(template);
@@ -9,10 +9,12 @@ define(["backbone","handlebars", "text!header/header.hbs"],
 		},
 		logout : function(event){
 			localStorage.clear();
-			window.location = "/"
+			window.location = "/";
 		}, 
 		render : function(){
-			this.$el.html(this.template({}));
+			this.$el.html(this.template({
+				logoPath: overrides.logoPath ? overrides.logoPath : "/images/PrecisionLinkPortal.png"
+			}));
 		}
 	});
 
