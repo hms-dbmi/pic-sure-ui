@@ -2,8 +2,7 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "han
 		function(outputPanel, queryBuilder, searchResult, HBS, searchResultTabsTemplate){
 	var searchResults = {
 		init : function(data, view, callback){
-			this.searchResultList = [];
-            this.searchResultTabs = HBS.compile(searchResultTabsTemplate);
+			this.searchResultTabs = HBS.compile(searchResultTabsTemplate);
 			this.addSearchResultRows(data, view, callback);
 		}
 	};

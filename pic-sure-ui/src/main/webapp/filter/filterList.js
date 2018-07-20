@@ -25,6 +25,7 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 		if(_.countBy(this.filters, function(filter){
 			return filter.model.get("searchTerm").trim() === "" ? "empty" : "notEmpty";
 		}).empty == undefined){
+            $('.filter-boolean-operator', this.$el).removeClass('hidden');
 			this.addFilter();			
 		}
 
