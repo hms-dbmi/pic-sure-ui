@@ -280,3 +280,34 @@
     font-size: 1.2em;
 }
 
+.constrain-filter {
+    margin-left: 40px;
+}
+
+.constrain-filter div {
+    background-color: rgb(193, 222, 254);
+}
+
+.constrain-filter button {
+    border-radius: 0px;
+    width: 100%;
+}
+
+.constrain-filter input {
+    border-radius: 0px;
+}
+
+.constrain-filter .constrain-filter-btn {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.constrain-filter .constrain-filter-input {
+    padding: 0px;
+}
+
+.field-invalid {
+    border: 2px solid red;
+}
+
+

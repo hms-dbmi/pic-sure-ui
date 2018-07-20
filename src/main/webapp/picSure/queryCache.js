@@ -58,7 +58,7 @@ define(['picSure/ontology', 'jquery','underscore'], function(ontology, $, _){
 			});
 		}
 		
-		initiateQuery();
+			initiateQuery();
 	};
 
 	return {

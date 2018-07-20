@@ -2,13 +2,15 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 	var mapResponseToResult = function(query, response){
 		var result = {};
 		console.log(response);
-		result.suggestions = response.map(entry => {
+        result.suggestions = response.map(entry => {
 			var puiSegments = entry.pui.split("/");
 			return {
 				value : entry.name,
 				data : entry.pui,
 				category : puiSegments[5],
 				tooltip : entry.attributes.tooltip,
+				columnDataType : entry.attributes.columndatatype,
+				metadata: entry.attributes.metadataxml[0],//entry.attributes.hasOwnProperty("metadataxml")?
 				parent : puiSegments[puiSegments.length-3]
 			};
 		}).sort(function(a, b){
@@ -48,6 +50,22 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 			}
 		});
 	};
+    var readMockData = function(file, query)
+    {
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", file, false);
+        rawFile.onreadystatechange = function ()
+        {
+            if(rawFile.readyState === 4)
+            {
+                if(rawFile.status === 200 || rawFile.status == 0)
+                {
+                    mapResponseToResult(query, JSON.parse(rawFile.responseText));
+                }
+            }
+        }
+        rawFile.send(null);
+    };
 
 	return {
 		autocomplete: autocomplete,
