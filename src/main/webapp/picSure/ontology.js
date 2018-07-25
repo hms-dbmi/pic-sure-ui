@@ -50,22 +50,6 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 			}
 		});
 	};
-    var readMockData = function(file, query)
-    {
-        var rawFile = new XMLHttpRequest();
-        rawFile.open("GET", file, false);
-        rawFile.onreadystatechange = function ()
-        {
-            if(rawFile.readyState === 4)
-            {
-                if(rawFile.status === 200 || rawFile.status == 0)
-                {
-                    mapResponseToResult(query, JSON.parse(rawFile.responseText));
-                }
-            }
-        }
-        rawFile.send(null);
-    };
 
 	return {
 		autocomplete: autocomplete,
