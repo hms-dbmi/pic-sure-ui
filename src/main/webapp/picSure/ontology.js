@@ -7,10 +7,10 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 			return {
 				value : entry.name,
 				data : entry.pui,
-				category : puiSegments[5],
+				category : puiSegments[5].split(' ').join('_'),
 				tooltip : entry.attributes.tooltip,
 				columnDataType : entry.attributes.columndatatype,
-				metadata: entry.attributes.metadataxml[0],//entry.attributes.hasOwnProperty("metadataxml")?
+				metadata:  entry.attributes.metadataxml,
 				parent : puiSegments[puiSegments.length-3]
 			};
 		}).sort(function(a, b){
