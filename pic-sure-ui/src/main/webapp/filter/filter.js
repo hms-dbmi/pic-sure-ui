@@ -5,7 +5,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
 			constrainByValue: false,
             isValueOperatorBetween: false,
 			valueOperator: "LT",
-			valueOperatorLabel: "Less than(&lt;)",
+			valueOperatorLabel: "Less than",
 			constrainValueOne: "",
 			constrainValueTwo: ""
 		}

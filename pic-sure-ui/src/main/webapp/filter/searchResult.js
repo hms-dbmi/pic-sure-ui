@@ -29,7 +29,11 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
                 if(value){
                     var pui = data ? data.pui : this.model.get("data");
                     var searchValue = data ? data.textValue : this.model.get("value");
-                    var dataType = this.model.get("metadata").valueMetadata.dataType;
+                    if (this.model.get("metadata") != null) {
+                        var dataType = this.model.get("metadata").ValueMetadata.DataType;
+                        this.filterView.model.set("metadata", this.model.get("metadata").ValueMetadata);
+                    }
+                   
                     if(dataType) {
                         var valueType = this.getValueType(dataType)
                     } else {
@@ -40,7 +44,6 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
                     this.filterView.model.set("searchValue", searchValue);
                     this.filterView.model.set("category", this.model.get("category"));
                     this.filterView.model.set("valueType", valueType);
-                    this.filterView.model.set("metadata", this.model.get("metadata").valueMetadata);
 
                     this.filterView.$el.addClass("saved");
                     this.filterView.render();
@@ -48,6 +51,7 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
                 this.filterView.updateConstrainFilterMenu();
                 if(this.filterView.model.get("valueType") !== "NUMBER" && this.filterView.model.get("searchTerm").trim().length > 0){
                     this.queryCallback();
+                    $('.filter-boolean-operator', this.filterView.$el).removeClass('hidden');
                 }
             },
             getValueType : function(dataType)
