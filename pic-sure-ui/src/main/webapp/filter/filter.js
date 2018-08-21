@@ -1,5 +1,5 @@
-define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "text!filter/constrainFilterMenu.hbs", "autocomplete", "bootstrap"],
-		function(ontology, spinner, BB, HBS, filterTemplate, suggestionTemplate, searchResults, queryCache, constrainFilterMenuTemplate){
+define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "text!filter/constrainFilterMenu.hbs", "common/notification", "autocomplete", "bootstrap"],
+		function(ontology, spinner, BB, HBS, filterTemplate, suggestionTemplate, searchResults, queryCache, constrainFilterMenuTemplate, notification){
 	var valueConstrainModel = BB.Model.extend({
 		defaults:{
 			constrainByValue: false,
@@ -179,7 +179,7 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
                 $('.constrain-filter', this.$el).html("");
                 this.onSelect(event);
             } else {
-				alert("Please correct invalid fields in RED.")
+			    notification.showValidationMessage("Value required! Correct invalid fields.", '.validation-message');
 			}
         },
         render: function(){
