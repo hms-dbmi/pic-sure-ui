@@ -1,4 +1,4 @@
-<div class="filter-search-row row">
+<div class="constrain-row row">
     <div class="col-md-3 constrain-filter-btn">
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle value-constraint-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -29,18 +29,19 @@
             </div>
         </div>
         <div class="col-md-1 constrain-filter-input">
-            <input class="constrain-value constrain-value-one form-control" value="{{constrainValueOne}}">
+            <input class="constrain-value constrain-value-one form-control" value="{{constrainValueOne}}" type="number">
         </div>
         <div class="{{#unless isValueOperatorBetween}}hidden{{/unless}}">
             <div class="col-md-1 constrain-filter-input" style="width: 5%; text-align: center;">
                 <span class="glyphicon glyphicon-minus" style="margin-top: 25%;"></span>
             </div>
             <div class="col-md-1 constrain-filter-input">
-                <input class="constrain-value constrain-value-two form-control" value="{{constrainValueTwo}}">
+                <input class="constrain-value constrain-value-two form-control" value="{{constrainValueTwo}}" type="number">
             </div>
         </div>
     </div>
     <div class="constrain-search-button col-md-1">
         <span class="glyphicon glyphicon-ok btn search-btn constrain-apply-btn"></span>
     </div>
+    <div class="validation-message col-md-12"></div>
 </div>

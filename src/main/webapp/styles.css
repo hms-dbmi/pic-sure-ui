@@ -284,8 +284,9 @@
     margin-left: 40px;
 }
 
-.constrain-filter div {
+.constrain-row {
     background-color: rgb(193, 222, 254);
+    padding: 10px;
 }
 
 .constrain-filter button {
@@ -306,8 +307,19 @@
     padding: 0px;
 }
 
-.field-invalid {
+.validation-message div {
+    text-align: center;
+}
+
+.field-invalid  {
     border: 2px solid red;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 

@@ -45,8 +45,14 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
                     this.filterView.model.set("category", this.model.get("category"));
                     this.filterView.model.set("valueType", valueType);
 
-                    this.filterView.$el.addClass("saved");
+
+                    var filterBooleanOperator = $('.filter-boolean-operator', this.filterView.$el);
+
                     this.filterView.render();
+                    this.filterView.$el.addClass("saved");
+                    if (!filterBooleanOperator.hasClass( "hidden" )){
+                        $('.filter-boolean-operator', this.filterView.$el).removeClass("hidden");
+                    }
                 }
                 this.filterView.updateConstrainFilterMenu();
                 if(this.filterView.model.get("valueType") !== "NUMBER" && this.filterView.model.get("searchTerm").trim().length > 0){
