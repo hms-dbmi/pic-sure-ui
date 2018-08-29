@@ -2,13 +2,15 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 	var mapResponseToResult = function(query, response){
 		var result = {};
 		console.log(response);
-		result.suggestions = response.map(entry => {
+        result.suggestions = response.map(entry => {
 			var puiSegments = entry.pui.split("/");
 			return {
 				value : entry.name,
 				data : entry.pui,
-				category : puiSegments[5],
+				category : puiSegments[5].split(' ').join('_'),
 				tooltip : entry.attributes.tooltip,
+				columnDataType : entry.attributes.columndatatype,
+				metadata:  entry.attributes.metadataxml,
 				parent : puiSegments[puiSegments.length-3]
 			};
 		}).sort(function(a, b){

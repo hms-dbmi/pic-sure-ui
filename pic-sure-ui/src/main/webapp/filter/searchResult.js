@@ -1,6 +1,7 @@
 define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hbs"],
-    function(spinner, BB, HBS, searchResultTemplate){
+    function(spinner, BB, HBS, searchResultTemplate, dataTypeMapping){
         var searchResultModel = BB.Model.extend({
+
         });
 
         var searchResultView = BB.View.extend({
@@ -17,11 +18,10 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
             },
             toggleTree: function () {
                 $('.node-tree-view', this.$el).toggle()
-
             },
             onClick : function(event, data){
                 console.log("Search result clicked");
-
+                this.filterView.reset();
                 this.filterView.model.set("inclusive", $('.filter-qualifier-btn', this.filterView.$el).text().trim() === "Must Have");
                 this.filterView.model.set("and", $('.filter-boolean-operator-btn', this.filterView.$el).text().trim() === "AND");
 
@@ -29,19 +29,58 @@ define(["common/spinner", "backbone", "handlebars", "text!filter/searchResult.hb
                 if(value){
                     var pui = data ? data.pui : this.model.get("data");
                     var searchValue = data ? data.textValue : this.model.get("value");
+                    if (this.model.get("metadata") != null) {
+                        var dataType = this.model.get("metadata").ValueMetadata.DataType;
+                        this.filterView.model.set("metadata", this.model.get("metadata").ValueMetadata);
+                    }
+                   
+                    if(dataType) {
+                        var valueType = this.getValueType(dataType)
+                    } else {
+                        var valueType = "NODATATYPE";
+                    }
 
                     this.filterView.model.set("searchTerm", pui);
                     this.filterView.model.set("searchValue", searchValue);
                     this.filterView.model.set("category", this.model.get("category"));
+                    this.filterView.model.set("valueType", valueType);
 
-                    this.filterView.$el.addClass("saved");
+
+                    var filterBooleanOperator = $('.filter-boolean-operator', this.filterView.$el);
+
                     this.filterView.render();
+                    this.filterView.$el.addClass("saved");
+                    if (!filterBooleanOperator.hasClass( "hidden" )){
+                        $('.filter-boolean-operator', this.filterView.$el).removeClass("hidden");
+                    }
+                }
+                this.filterView.updateConstrainFilterMenu();
+                if(this.filterView.model.get("valueType") !== "NUMBER" && this.filterView.model.get("searchTerm").trim().length > 0){
+                    this.queryCallback();
                     $('.filter-boolean-operator', this.filterView.$el).removeClass('hidden');
                 }
-                if(this.filterView.model.get("searchTerm").trim().length > 0){
-                    this.queryCallback();
+            },
+            getValueType : function(dataType)
+            {
+                var ValueTypes = {};
+                /* Start Configuration. Note: be careful to keep trailing commas after each parameter */
+                ValueTypes.type = {
+                    "PosFloat": "NUMBER",
+                    "PosInteger": "NUMBER",
+                    "Float": "NUMBER",
+                    "Integer": "NUMBER",
+                    "String": "STR",
+                    "largestring": "LRGSTR",
+                    "Enum": "ENUM",
+                    "DEFAULT": "NUMBER"
                 }
 
+                if(!ValueTypes.type.hasOwnProperty(dataType)) {
+                    var valuetype = ValueTypes.type["DEFAULT"];
+                } else {
+                    var valueType = ValueTypes.type[dataType];
+                }
+                return valueType;
             },
             render: function(){
                 var isNotStandardI2b2 = this.model.get("data").indexOf("~") == -1;

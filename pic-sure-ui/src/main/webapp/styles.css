@@ -280,3 +280,46 @@
     font-size: 1.2em;
 }
 
+.constrain-filter {
+    margin-left: 40px;
+}
+
+.constrain-row {
+    background-color: rgb(193, 222, 254);
+    padding: 10px;
+}
+
+.constrain-filter button {
+    border-radius: 0px;
+    width: 100%;
+}
+
+.constrain-filter input {
+    border-radius: 0px;
+}
+
+.constrain-filter .constrain-filter-btn {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.constrain-filter .constrain-filter-input {
+    padding: 0px;
+}
+
+.validation-message div {
+    text-align: center;
+}
+
+.field-invalid  {
+    border: 2px solid red;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+

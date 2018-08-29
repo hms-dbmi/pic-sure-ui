@@ -7,7 +7,7 @@
                         {{#if inclusive}}Must Have{{else}}Must Not Have{{/if}}
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="filter-qualifier-btn">
+                    <ul class="filter-dropdown-menu dropdown-menu" aria-labelledby="filter-qualifier-btn">
                         <li><a class="dropdown-item" href="#">Must Have</a></li>
                         <li><a class="dropdown-item" href="#">Must Not Have</a></li>
                     </ul>
@@ -27,7 +27,7 @@
                     <span class="autocomplete-category">{{category}}</span>
                     <br>
                     <div>
-                        <span>{{searchValue}}</span>
+                        <span class="search-value">{{searchValue}}</span>
                     </div>
                 </div>
             </div>
@@ -42,6 +42,7 @@
             </div>
         </div>
     </div>
+    <div class="constrain-filter"></div>
 	<div class="search-tabs"></div>
 	<br>
 	<div class="filter-boolean-operator row hidden">
@@ -51,7 +52,7 @@
 		    AND
 		    <span class="caret"></span>
 		  </button>
-		  <ul class="dropdown-menu" aria-labelledby="filter-boolean-operator-btn">
+		  <ul class="filter-dropdown-menu dropdown-menu" aria-labelledby="filter-boolean-operator-btn">
 		    <li><a class="dropdown-item {{#if and}}active{{/if}}" href="#">AND</a></li>
 		    <li><a class="dropdown-item {{#if and}}{{else}}active{{/if}}" href="#">OR</a></li>
 		  </ul>

@@ -24,10 +24,9 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 		outputPanel.View.update(query);
 		if(_.countBy(this.filters, function(filter){
 			return filter.model.get("searchTerm").trim() === "" ? "empty" : "notEmpty";
-		}).empty == undefined){
-			this.addFilter();			
-		}
-
+		}).empty == undefined) {
+            this.addFilter();
+        }
 	}.bind(filterList);
 	filterList.removeFilter = function (cid) {
         var indexToRemove;
