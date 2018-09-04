@@ -51,7 +51,7 @@
 				<executions>
 					<execution>
 						<id>unpack-dependencies</id>
-						<phase>package</phase>
+						<phase>generate-sources</phase>
 						<goals>
 							<goal>unpack-dependencies</goal>
 						</goals>
@@ -69,9 +69,10 @@
 				<configuration>
 					<descriptors>
 						<descriptor>src/assembly/webapp-zip.xml</descriptor>
+						<descriptor>src/assembly/archetype-assets.xml</descriptor>
 					</descriptors>
 					<attach>true</attach>
-					<outputDirectory>httpd</outputDirectory>
+					<outputDirectory>target</outputDirectory>
 				</configuration>
 				<executions>
 					<execution>

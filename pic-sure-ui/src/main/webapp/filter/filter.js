@@ -47,15 +47,16 @@ define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!fi
             this.model.set("constrainParams", new valueConstrainModel());
         },
         enterButtonEventHandler : function(event){
-            if(event.keyCode == 13){
-                var term = $('input.search-box', this.$el).val();
-
-                if(term && term.length > 0){
-                    this.model.set("searchTerm", term);
-                    this.searchTerm(term);
-                }
-
-            }
+			if(event.keyCode == 13){
+				overrides.enterKeyHandler ? overrides.enterKeyHandler.apply(this) 
+						: function(){
+							var term = $('input.search-box', this.$el).val();
+							if(term && term.length > 0){
+								this.model.set("searchTerm", term);
+								this.searchTerm(term);
+							}
+						}
+			}
         },
 		searchTerm : function(term) {
             var deferredSearchResults = $.Deferred();
