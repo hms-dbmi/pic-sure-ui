@@ -6,8 +6,9 @@
 	{{#each resources}}
 		<div class="row">
 			<span class="col-md-1"></span>
-			<span class="col-md-5 right">{{name}}</span>
-			<span class="col-md-5 left" id="patient-count-{{id}}">{{#if queryRan}}{{#if ../countDisplayOverride}}{{> (../countDisplayOverride) patientCount}}{{else}}{{outputPanel_obfuscate  patientCount}}{{/if}}{{else}}-{{/if}}</span>
+			<div class="col-md-10 center"><span>{{name}}</span>
+				<span id="patient-count-{{id}}">{{#if queryRan}}{{#if ../countDisplayOverride}}{{> (../countDisplayOverride) patientCount}}{{else}}{{outputPanel_obfuscate  patientCount}}{{/if}}{{else}}-{{/if}}</span>
+			</div>
 			<span class="col-md-1" id="spinner-{{id}}">{{#if spinning}}{{> spinner spinnerClasses}}{{/if}}</span>
 		</div>
 	{{/each}}

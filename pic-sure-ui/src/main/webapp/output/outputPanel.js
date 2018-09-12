@@ -34,6 +34,13 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 			});
 		}
 	});
+	
+	var mapPuiForResource = (typeof overrides.mapPuiForResource == 'function') ? 
+			overrides.mapPuiForResource
+			: function(pui, picsureInstance){
+		return pui.replace(/(\/[\w-]+){4}/, picsureInstance.basePui);
+	};
+	
 	var outputView = overrides.viewOverride ? overrides.viewOverride : BB.View.extend({
 		initialize: function(){
 			this.template = HBS.compile(outputTemplate);
@@ -77,7 +84,7 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 				}.bind(this);
 
 				_.each(query.where, function(whereClause){
-					whereClause.field.pui = whereClause.field.pui.replace(/(\/[\w-]+){4}/, picsureInstance.basePui);
+					whereClause.field.pui = mapPuiForResource(whereClause.field.pui, picsureInstance);
 				});
 
 				ontology.verifyPathsExist(_.pluck(_.pluck(query.where, 'field'), 'pui'), picsureInstance, function(allPathsExist){
@@ -99,8 +106,8 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 		}
 	});
 	return {
-		View : new outputView({
-			model: new outputModel()
+		View : new (overrides.viewOverride ? overrides.viewOverride : outputView)({
+			model: new (overrides.modelOverride ? overrides.modelOverride : outputModel)()
 		})
 	}
 });

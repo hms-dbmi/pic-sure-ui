@@ -1,10 +1,13 @@
 {
   "resources":[
 		{
-			"id" : "BCH1",
-			"name" : "BCH 1",
+			"id" : "PrecisionLink",
+			"name" : "PrecisionLink",
 			"basePath" : "/picsure",
-			"basePui" : "/i2b2-grin-dev-countonly/Demo/GRIN/GRIN"
+			"basePui" : "/i2b2-wildfly-count-only/Demo", 
+			"resourcePath" : "/i2b2-wildfly-count-only"
 		}
-		]
+		],
+  "helpLink": "mailto:bchbiobank4discovery@childrens.harvard.edu",
+  "advancedSearchLink": "/transmart"
 }

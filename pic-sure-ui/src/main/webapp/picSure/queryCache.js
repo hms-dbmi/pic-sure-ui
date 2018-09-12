@@ -12,11 +12,18 @@ define(['picSure/ontology', 'jquery','underscore'], function(ontology, $, _){
 							// Query is still running so just keep waiting.
 							stillRunning();
 							break;
+						case "CREATED":
+                            // Query just started running so just keep waiting.
+                            stillRunning();
+                            break;
 						case "AVAILABLE":
 							// Query has completed
+							var i2b2ResultId = data.riActionId;
 							$.ajax({
 								url : targetSystem.queryResultBasePath + id + "/JSON",
+								headers: {"Authorization": "Bearer " + localStorage.getItem("id_token")},
 								success : function(result){
+									result.i2b2ResultId = i2b2ResultId;
 									dataCallback(result);
 								},
 								failure : function(data){

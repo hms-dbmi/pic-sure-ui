@@ -50,6 +50,7 @@ define([], function(){
 	
 
 	return {
-		createQuery
+		createQuery,
+		createWhere
 	}
 });

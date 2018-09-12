@@ -1,17 +1,17 @@
-define(["settings/settings","common/searchParser", "nav/topNav", "backbone", "common/login"], 
-        function(settings, searchParser, topNav, Backbone, login){
+define(["text!settings/settings.json","common/searchParser", "header/header", "backbone", "auth/login", "common/queryBuilderView"], 
+        function(settings, searchParser, header, Backbone, login, queryBuilderView){
     var Router = Backbone.Router.extend({
         routes: {
             "queryBuilder" : "displayQueryBuilder",
             "login(/)" : "login",
             "logout(/)" : "logout",
+            "not_authorized(/)" : "not_authorized",
             
             // This path must be last in the list
             "*path" : "displayQueryBuilder"
         },
        
         initialize: function(){
-            topNav.registerRouter(this);
             var pushState = history.pushState;
             history.pushState = function(state, title, path) {
             		if(state.trigger){
@@ -43,10 +43,14 @@ define(["settings/settings","common/searchParser", "nav/topNav", "backbone", "co
             sessionStorage.clear();
             window.location = "/logout";
         },
+        
+        not_authorized : function(){
+        		sessionStorage.clear();
+        		$('body').html("Sorry you are not authorized to access this system at this time.");
+        },
 
-        displayPatientList : function(){
-            topNav.updateTopNav("Patients", session.username);
-            patientList.showPatientList(this);            
+        displayQueryBuilder : function(){
+            queryBuilderView();            
         }
     });
     return new Router();

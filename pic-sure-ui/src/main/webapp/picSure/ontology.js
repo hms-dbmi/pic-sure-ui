@@ -1,4 +1,15 @@
-define(["picSure/resourceMeta"], function(resourceMeta){
+define(["picSure/resourceMeta", "overrides/ontology"], function(resourceMeta, overrides){
+	var extractCategoryFromPui = (typeof overrides.extractCategoryFromPui === 'function') ?
+			overrides.extractCategoryFromPui 
+			: function(puiSegments){
+				return puiSegments[5].split(' ').join('_');
+			};
+	var extractParentFromPui = (typeof overrides.extractParentFromPui === 'function') ?
+			overrides.extractParentFromPui 
+			: function(puiSegments){
+				return puiSegments[puiSegments.length-3];
+			};
+			
 	var mapResponseToResult = function(query, response){
 		var result = {};
 		console.log(response);
@@ -7,7 +18,7 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 			return {
 				value : entry.name,
 				data : entry.pui,
-				category : puiSegments[5].split(' ').join('_'),
+				category : extractCategoryFromPui(puiSegments),
 				tooltip : entry.attributes.tooltip,
 				columnDataType : entry.attributes.columndatatype,
 				metadata:  entry.attributes.metadataxml,
@@ -24,18 +35,32 @@ define(["picSure/resourceMeta"], function(resourceMeta){
 		return result;
 	};
 
+	var searchCache = {};
+	
 	var autocomplete = function(query, done){
-		return $.ajax({
-			url: window.location.origin + resourceMeta[0].findPath + "?term=%25"+query+"%25",
-			headers: {"Authorization": "Bearer " + localStorage.getItem("id_token")},
-			success: function(response){
-				done(mapResponseToResult(query, response));
-			}.bind({done:done}),
-			dataType: "json"
-		});
+		if(searchCache[query.toLowerCase()]){
+			done(searchCache[query.toLowerCase()]);
+		}else{
+			return $.ajax({
+				url: window.location.origin + resourceMeta[0].findPath + "?term=%25"+query+"%25",
+				headers: {"Authorization": "Bearer " + localStorage.getItem("id_token")},
+				success: function(response){
+					var result = mapResponseToResult(query, response);
+					searchCache[query.toLowerCase()]=result;
+					done(result);
+				}.bind({done:done}),
+				dataType: "json"
+			});		
+		}
 	}.bind({resourceMeta:resourceMeta});
 
 	var verifyPathsExist = function(paths, targetResource, done){
+		if(!localStorage.getItem("id_token")){
+			done(false);
+			var resolved = $.Deferred();
+			resolved.resolve();
+			return resolved;
+		}
 		return $.ajax({
 			url: window.location.origin + targetResource.pathPath,
 			type: 'POST',

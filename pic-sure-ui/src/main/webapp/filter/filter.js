@@ -1,5 +1,5 @@
-define(["picSure/ontology", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "text!filter/constrainFilterMenu.hbs", "common/notification", "autocomplete", "bootstrap"],
-		function(ontology, spinner, BB, HBS, filterTemplate, suggestionTemplate, searchResults, queryCache, constrainFilterMenuTemplate, notification){
+define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "text!filter/constrainFilterMenu.hbs", "common/notification", "autocomplete", "bootstrap"],
+		function(ontology, overrides, spinner, BB, HBS, filterTemplate, suggestionTemplate, searchResults, queryCache, constrainFilterMenuTemplate, notification){
 	var valueConstrainModel = BB.Model.extend({
 		defaults:{
 			constrainByValue: false,

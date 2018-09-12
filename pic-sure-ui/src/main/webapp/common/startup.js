@@ -1,17 +1,18 @@
-define(["filter/filterList", "header/header", "output/outputPanel", "picSure/resourceMeta", "jquery", "auth/login", "handlebars", "text!common/mainLayout.hbs", "treeview", "common/styles"],
-		function(filterList, header, output, resourceMeta, $, login, HBS, layoutTemplate){
-	$(document).ajaxError(function (e, xhr, options) {
-		var isPrimaryResource = options.url.toUpperCase().indexOf(resourceMeta[0].id.toUpperCase()) != -1;
-	    if (xhr.status == 401 && isPrimaryResource){
-		    header.logout();
-		}
-	});
+define(["filter/filterList", "header/header", "text!../settings/settings.json", "output/outputPanel", "picSure/resourceMeta", "jquery", "auth/login", "handlebars", "text!common/mainLayout.hbs", "treeview", "common/styles"],
+		function(filterList, header, settings, output, resourceMeta, $, login, HBS, layoutTemplate){
 	return function(){
-		$('body').append(HBS.compile(layoutTemplate)());
+		$('body').append(HBS.compile(layoutTemplate)(JSON.parse(settings)));
 		
 		if(!localStorage.id_token){
 			login.showLoginPage();
 		}else{
+			$(document).ajaxError(function (e, xhr, options) {
+				var isPrimaryResource = options.url.toUpperCase().indexOf(resourceMeta[0].basePath.toUpperCase()) != -1;
+			    if (xhr.status == 401 && isPrimaryResource){
+			    		console.log("NOT LOGGED IN");
+				    header.View.logout();
+				}
+			});
 			var headerView = header.View;
 			headerView.render();
 			$('#header-content').append(headerView.$el);
