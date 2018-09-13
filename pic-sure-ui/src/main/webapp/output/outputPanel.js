@@ -1,13 +1,5 @@
 define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", "picSure/ontology", "picSure/queryCache", "backbone", "handlebars", "overrides/outputPanel"],
 		function(spinner, outputTemplate, resourceMeta, ontology, queryCache, BB, HBS, overrides){
-	HBS.registerHelper("outputPanel_obfuscate", function(count){
-		if(count < 10){
-			return "< 10";
-		} else {
-			return count;
-		}
-	});
-
 	var outputModelDefaults = {
 			totalPatients : 0,
 			spinnerClasses: "spinner-medium spinner-medium-center ",
@@ -46,6 +38,15 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 			this.template = HBS.compile(outputTemplate);
 			overrides.renderOverride ? this.render = overrides.renderOverride.bind(this) : undefined;
 			overrides.update ? this.update = overrides.update.bind(this) : undefined;
+			HBS.registerHelper("outputPanel_obfuscate", function(count){
+				if(count < 10){
+					return "< 10";
+				} else {
+					return count;
+				}
+			});
+
+			
 		},
 		totalCount: 0,
 		tagName: "div",
