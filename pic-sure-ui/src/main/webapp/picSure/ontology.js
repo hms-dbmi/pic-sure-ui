@@ -49,6 +49,10 @@ define(["picSure/resourceMeta", "overrides/ontology"], function(resourceMeta, ov
 					searchCache[query.toLowerCase()]=result;
 					done(result);
 				}.bind({done:done}),
+				error: function(response){
+					searchCache[query.toLowerCase()]=[];
+					done({suggestions:[]});
+				},
 				dataType: "json"
 			});		
 		}

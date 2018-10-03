@@ -1,5 +1,5 @@
-define(['picSure/resourceMeta', 'text!auth/not_authorized.hbs', 'text!settings/settings.json', 'picSure/ontology', 'common/searchParser', 'auth0-js', 'jquery', 'handlebars', 'text!auth/login.hbs', 'overrides/login'], 
-		function(resourceMeta, notAuthorizedTemplate, settings, ontology, parseQueryString, Auth0Lock, $, HBS, loginTemplate, overrides){
+define(['text!common/mainLayout.hbs', 'picSure/resourceMeta', 'text!auth/not_authorized.hbs', 'text!settings/settings.json', 'picSure/ontology', 'common/searchParser', 'auth0-js', 'jquery', 'handlebars', 'text!auth/login.hbs', 'overrides/login'], 
+		function(layoutTemplate, resourceMeta, notAuthorizedTemplate, settings, ontology, parseQueryString, Auth0Lock, $, HBS, loginTemplate, overrides){
 	
 	var loginTemplate = HBS.compile(loginTemplate);
 
@@ -35,6 +35,8 @@ define(['picSure/resourceMeta', 'text!auth/not_authorized.hbs', 'text!settings/s
 					dataType: "text",
 						success : function(scriptResponse){
 							var script = scriptResponse.replace('responseType : "code"', 'responseType : "token"');
+							$('body').append(HBS.compile(layoutTemplate)(JSON.parse(settings)));
+							
 							$('#main-content').html(loginTemplate({
 								buttonScript : script,
 								clientId : clientId,
@@ -44,13 +46,20 @@ define(['picSure/resourceMeta', 'text!auth/not_authorized.hbs', 'text!settings/s
 							overrides.postRender ? overrides.postRender.apply(this) : undefined;
 							$('#main-content').append(loginCss);
 						}
-				});					
+				});
 			}
 		}
 	}
 
 	var login = {
 		showLoginPage : function(){			
+			$(document).ajaxError(function (e, xhr, options) {
+				var isPrimaryResource = options.url.toUpperCase().indexOf(resourceMeta[0].basePath.toUpperCase()) != -1;
+			    if (xhr.status == 401 && isPrimaryResource){
+			    		console.log("NOT LOGGED IN");
+				    header.View.logout();
+				}
+			});
 			var queryObject = parseQueryString();
 			if(queryObject.id_token){
 				var expiresAt = JSON.stringify(
@@ -58,14 +67,15 @@ define(['picSure/resourceMeta', 'text!auth/not_authorized.hbs', 'text!settings/s
 					);
 				localStorage.setItem('access_token', queryObject.access_token);
 				localStorage.setItem('id_token', queryObject.id_token);
-				localStorage.setItem('expires_at', expiresAt);				
+				localStorage.setItem('expires_at', expiresAt);
+				setTimeout(defaultAuthorizationCheck(queryObject.id_token, handleAuthorizationResult), queryObject.expires_in + 5000);
 			}
 			
 			if(typeof overrides.authorization === "function"){
 				overrides.authorization(queryObject.id_token, handleAuthorizationResult);
 			} else {
-				if(queryObject.id_token){
-					defaultAuthorizationCheck(queryObject.id_token, handleAuthorizationResult);
+				if(localStorage.id_token){
+					defaultAuthorizationCheck(localStorage.id_token, handleAuthorizationResult);
 				}else{
 					handleAuthorizationResult(false);
 				}
