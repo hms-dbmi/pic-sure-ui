@@ -1,7 +1,9 @@
 #main-content {
      width: 80%;
      position: relative;
-     top: 2em;
+     margin-top: 2em;
+     margin-bottom: 2em;
+     padding-bottom: 2em;
 }
  #patient-count-box {
      line-height: 1;
@@ -321,5 +323,16 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
-
+#footer-content{	
+    background-image: linear-gradient(white, #ddd);
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+#footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+}
 
