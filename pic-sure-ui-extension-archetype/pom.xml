@@ -58,7 +58,7 @@
 									<type>zip</type>
 									<classifier>archetype</classifier>
 									<overWrite>false</overWrite>
-									<outputDirectory>${project.basedir}/src/main/resources/archetype-resoures/</outputDirectory>
+									<outputDirectory>${project.basedir}/src/main/resources/archetype-resources/</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
