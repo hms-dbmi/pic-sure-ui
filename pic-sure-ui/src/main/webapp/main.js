@@ -26,10 +26,13 @@ require.config({
 		"auth0-js": {
 			deps:["jquery"],
 			exports: "Auth0Lock"
+		},
+		"common/startup": {
+			deps:["overrides/main"]
 		}
 	}
 });
 
-require(["common/startup", "overrides/main"], function(startup){
+require(["common/startup"], function(startup){
 	startup();
 });
