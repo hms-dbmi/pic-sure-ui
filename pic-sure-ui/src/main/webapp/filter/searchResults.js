@@ -13,7 +13,7 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "han
 			var categorySearchResultViews = [];
 			$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 				if(data[key]){
-					_.each(data[key].slice(0,50), function(value){
+					_.each(data[key], function(value){
 						var newSearchResultRow = new searchResult.View({
 							queryCallback : queryCallback,
 							model : new searchResult.Model(value),
@@ -22,12 +22,11 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "han
 						newSearchResultRow.render();
 
 						categorySearchResultViews.push(newSearchResultRow);
-						$('#'+key+'.tab-pane', filterView.$el).append(_.pluck(categorySearchResultViews, "$el"));
 						data[key] = undefined;
 					});					
 				}
 			});
-
+			$('#'+key+'.tab-pane', filterView.$el).append(_.pluck(categorySearchResultViews, "$el"));
 		});
 
 		$("#"+_.first(keys)).addClass("active");
