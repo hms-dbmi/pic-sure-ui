@@ -41,7 +41,7 @@
 						<source>webjars/requirejs/2.3.5/require.min.js</source>
 					</preloadSources>
 					<srcDirectoryName>/js</srcDirectoryName>
-					<jsSrcDir>src/main/webapp</jsSrcDir>
+					<jsSrcDir>src/main/webapp/picsureui</jsSrcDir>
 				</configuration>
 			</plugin>
 			<plugin>
