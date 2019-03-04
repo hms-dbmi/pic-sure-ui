@@ -9,7 +9,7 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "han
 	searchResults.addSearchResultRows = function(data, filterView, queryCallback){
 		keys = _.keys(data).sort();
 		$('.search-tabs', filterView.$el).append(this.searchResultTabs(keys));
-		keys.forEach((key) => {
+		keys.forEach(function(key) {
 			var categorySearchResultViews = [];
 			$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 				if(data[key]){

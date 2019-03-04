@@ -1,0 +1,14 @@
+{
+	"info": "Do not delete. This file here is to test JS with Jasmine. When running with docker, app will use settings from /resources. Keep these in sync.",
+	"resources":[
+		{
+			"id" : "PrecisionLink_forJasmineTest",
+			"name" : "PrecisionLink_forJasmineTest",
+			"basePath" : "/picsure",
+			"basePui" : "/i2b2-wildfly-count-only/Demo",
+			"resourcePath" : "/i2b2-wildfly-count-only"
+		}
+	],
+	"helpLink": "mailto:hms.dbmi.data.infrastructure@gmail.com",
+	"advancedSearchLink": "/transmart"
+}
