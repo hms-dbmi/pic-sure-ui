@@ -11,7 +11,9 @@ paths: {
 	handlebars: '../webjars/handlebars/4.0.5/handlebars.min',
 	treeview: '../webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min',
 	treeviewStyles: '../webjars/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css',
-	'auth': "testAuth"
+    'auth': "testAuth",
+    Noty: '../webjars/noty/3.1.4/lib/noty',
+    NotyStyles: '../webjars/noty/3.1.4/lib/noty.css'
 },
 shim: {
 	"bootstrap": {

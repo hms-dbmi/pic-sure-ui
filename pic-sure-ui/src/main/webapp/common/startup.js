@@ -7,7 +7,8 @@ define(["filter/filterList", "header/header", "footer/footer", "text!../settings
                 window.location = redirection_url;
             }
             $.ajax({
-                url: window.location.origin + '/BCH/systemService/about',
+                // Validation call
+                url: window.location.origin + '/picsure/resource',
                 headers: {"Authorization": "Bearer " + JSON.parse(sessionStorage.getItem("session")).token},
                 contentType: 'application/json',
                 type:'GET',
