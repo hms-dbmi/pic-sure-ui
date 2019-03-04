@@ -12,5 +12,5 @@ services:
       - 443:443
     volumes:
       - ./src/main/webapp:/usr/local/apache2/htdocs
-      - ./target/webjars/META-INF/resources/webjars:/usr/local/apache2/htdocs/webjars
-      - ./src/main/resources:/usr/local/apache2/htdocs/settings
+      - ./target/webjars/META-INF/resources/webjars:/usr/local/apache2/htdocs/picsureui/webjars
+      - ./src/main/resources:/usr/local/apache2/htdocs/picsureui/settings
