@@ -12,19 +12,21 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/searchResult", "han
 		keys.forEach(function(key) {
 			var categorySearchResultViews = [];
 			$('a[data-toggle="tab"]',$('.search-tabs', filterView.$el)).on('shown.bs.tab', function (e) {
-				if(key===e.target.dataset.label && data[key]){
-					_.each(data[key], function(value){
-						var newSearchResultRow = new searchResult.View({
-							queryCallback : queryCallback,
-							model : new searchResult.Model(value),
-							filterView: filterView
-						});
-						newSearchResultRow.render();
+				if(categorySearchResultViews.length==0){
+					if(key===e.target.dataset.label && data[key]){
+						_.each(data[key], function(value){
+							var newSearchResultRow = new searchResult.View({
+								queryCallback : queryCallback,
+								model : new searchResult.Model(value),
+								filterView: filterView
+							});
+							newSearchResultRow.render();
 
-						categorySearchResultViews.push(newSearchResultRow);
-						data[key] = undefined;
-						$('#'+key+'.tab-pane', filterView.$el).append(_.pluck(categorySearchResultViews, "$el"));
-					});					
+							categorySearchResultViews.push(newSearchResultRow);
+							data[key] = undefined;
+							$('#'+key+'.tab-pane', filterView.$el).append(_.pluck(categorySearchResultViews, "$el"));
+						});					
+					}
 				}
 			});
 		});
