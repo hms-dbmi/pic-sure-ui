@@ -25,7 +25,7 @@
 			</includes>
 		</fileSet>
 		<fileSet encoding="UTF-8">
-			<directory>src/main/javascript</directory>
+			<directory>src/main/webapp</directory>
 			<includes>
 				<include>**/*.css</include>
 				<include>**/*.js</include>
