@@ -18,7 +18,7 @@ define(["backbone","handlebars", "text!header/header.hbs", "overrides/header", "
 				helpLink: JSON.parse(settings).helpLink
 			}));
 			$.ajax({
-				url: window.location.origin + "/picsureauth/user/me",
+				url: window.location.origin + "/psama/user/me",
 				type: 'GET',
 				headers: {"Authorization": "Bearer " + JSON.parse(sessionStorage.getItem("session")).token},
 				contentType: 'application/json',
