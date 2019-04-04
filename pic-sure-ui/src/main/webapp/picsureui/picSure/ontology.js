@@ -1,4 +1,4 @@
-define(["picSure/resourceMeta", "overrides/ontology"], function(resourceMeta, overrides){
+define(["picSure/resourceMeta", "overrides/ontology","text!../settings/settings.json"], function(resourceMeta, overrides, settings){
 	var extractCategoryFromPui = (typeof overrides.extractCategoryFromPui === 'function') ?
 			overrides.extractCategoryFromPui 
 			: function(puiSegments){
@@ -13,7 +13,10 @@ define(["picSure/resourceMeta", "overrides/ontology"], function(resourceMeta, ov
 	var mapResponseToResult = function(query, response){
 		var result = {};
 		console.log(response);
-        result.suggestions = response.map(entry => {
+		var resourceSet = JSON.parse(settings).resources;
+        result.suggestions = _.filter(response.results, function(result){
+        	return result.pui.includes(resourceSet[0].basePui)
+		}).map(entry => {
 			var puiSegments = entry.pui.split("/");
 			return {
 				value : entry.name,
