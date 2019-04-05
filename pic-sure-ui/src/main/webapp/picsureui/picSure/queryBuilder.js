@@ -52,8 +52,6 @@ define(['underscore'], function(_){
         return query;
     };
     return {
-        createWhere: createWhere,
-        createGnomeWhere: createGnomeWhere,
         createQuery: createQuery
     }
 });
