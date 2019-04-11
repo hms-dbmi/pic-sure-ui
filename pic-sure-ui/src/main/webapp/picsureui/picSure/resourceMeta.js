@@ -4,7 +4,6 @@ define(["text!../settings/settings.json"], function(settings){
         "queryPath" : resource.basePath + "query",
         "queryStatusBasePath" : resource.basePath + "query/" + resource.uuid + "/status",
         "queryResultBasePath" : resource.basePath + "query/" + resource.uuid + "/result",
-        "pathPath" : resource.basePath + "/resourceService/jsonPath",
         "findPath" : resource.basePath + "search/" + resource.uuid
     }));
 });
