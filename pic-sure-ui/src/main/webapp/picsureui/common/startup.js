@@ -8,7 +8,7 @@ define(["filter/filterList", "header/header", "footer/footer", "text!../settings
             }
             $.ajax({
                 // Validation call
-                url: window.location.origin + '/picsure/resource',
+                url: window.location.origin + '/picsure/info/resources',
                 headers: {"Authorization": "Bearer " + JSON.parse(sessionStorage.getItem("session")).token},
                 contentType: 'application/json',
                 type:'GET',
