@@ -1,5 +1,5 @@
 {
-  "resources":[
+  	"resources":[
 		{
 			"id" : "PrecisionLink",
 			"name" : "PrecisionLink",
@@ -8,6 +8,8 @@
 			"resourcePath" : "/i2b2-wildfly-count-only"
 		}
 		],
-  "helpLink": "mailto:bchbiobank4discovery@childrens.harvard.edu",
-  "advancedSearchLink": "/transmart"
+  	"helpLink": "mailto:bchbiobank4discovery@childrens.harvard.edu",
+	"advancedSearchLink": "/transmart/login/callback_processor",
+	"pdfLink":"about:blank",
+	"footerMessage" : "Currently Available Biospecimens and Data: 7,372 enrolled patients with phenotype data. 34 patients with genomic data. 25,191 specimens"
 }

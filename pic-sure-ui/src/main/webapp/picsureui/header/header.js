@@ -13,9 +13,10 @@ define(["backbone","handlebars", "text!header/header.hbs", "overrides/header", "
 		}, 
 		render : function(){
 			this.$el.html(this.template({
-				logoPath: (overrides.logoPath 
-					? overrides.logoPath : "/picsureui/images/pl_logo.png"),
-				helpLink: JSON.parse(settings).helpLink
+				logoPath: (overrides.logoPath
+                    ? overrides.logoPath : "/picsureui/images/pl_logo.png"),
+                helpLink: JSON.parse(settings).helpLink,
+                pdfLink:JSON.parse(settings).pdfLink
 			}));
 			$.ajax({
 				url: window.location.origin + "/psama/user/me",
