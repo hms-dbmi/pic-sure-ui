@@ -10,6 +10,5 @@
 		],
   	"helpLink": "mailto:bchbiobank4discovery@childrens.harvard.edu",
 	"advancedSearchLink": "/transmart/login/callback_processor",
-	"pdfLink":"about:blank",
-	"footerMessage" : "As of 05/06/2019 Available Biospecimens and Data: 10,899 enrolled patients with phenotype data. 34 patients with genomic data. 29,082 specimens"
+	"pdfLink":"about:blank"
 }
