@@ -55,8 +55,15 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
         this.runQuery();
 	}.bind(filterList);
 
+	/*
+	Clear the array where the references to the actual filter objects are stored
+	and then call the `destroyFilter` method on all the objects.
+	The `runQuery` method will add an empty filter field to the view, so we
+	don't have to ;)
+	*/
 	filterList.clearAllQueryFilters = function () {
-		this.filters.forEach(function(filterObject) { filterObject.destroyFilter(); })
+					fl = this.filters.splice(0,this.filters.length);
+					for(var i = 0; i < fl.length; i++) { fl[i].destroyFilter();}
 	}.bind(filterList);
 
 	return filterList;
