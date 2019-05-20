@@ -1,4 +1,4 @@
-define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "handlebars", "text!filter/filterTemplate.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "text!filter/constrainFilterMenu.hbs", "common/notification", "autocomplete", "bootstrap"],
+define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "handlebars", "text!filter/filter.hbs", "text!filter/suggestion.hbs", "filter/searchResults", "picSure/queryCache", "text!filter/constrainFilterMenu.hbs", "common/notification", "autocomplete", "bootstrap"],
 		function(ontology, overrides, spinner, BB, HBS, filterTemplate, suggestionTemplate, searchResults, queryCache, constrainFilterMenuTemplate, notification){
 	var valueConstrainModel = BB.Model.extend({
 		defaults:{
@@ -25,9 +25,10 @@ define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "h
 			this.template = HBS.compile(filterTemplate);
 			this.suggestionTemplate = HBS.compile(suggestionTemplate);
 			this.queryCallback = opts.queryCallback;
-			this.showSearchResults = this.showSearchResults.bind(this);
 			this.removeFilter = opts.removeFilter;
 			this.constrainFilterMenuTemplate = HBS.compile(constrainFilterMenuTemplate);
+
+            overrides.showSearchResult ? this.showSearchResults = overrides.showSearchResult.bind(this) : this.showSearchResults = this.showSearchResults.bind(this);
 		},
 		tagName: "div",
 		className: "filter-list-entry row",
