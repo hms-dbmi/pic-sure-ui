@@ -7,6 +7,8 @@ define(["handlebars", "backbone"], function(HBS, BB){
 		 * 
 		 * This should be a function that takes a JavaScript key event as it's only parameter.
 		 */
-		enterKeyHandler : undefined
+		enterKeyHandler : undefined,
+
+        showSearchResult : undefined
 	};
 });

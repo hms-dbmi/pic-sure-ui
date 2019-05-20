@@ -25,9 +25,10 @@ define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "h
 			this.template = HBS.compile(filterTemplate);
 			this.suggestionTemplate = HBS.compile(suggestionTemplate);
 			this.queryCallback = opts.queryCallback;
-			this.showSearchResults = this.showSearchResults.bind(this);
 			this.removeFilter = opts.removeFilter;
 			this.constrainFilterMenuTemplate = HBS.compile(constrainFilterMenuTemplate);
+
+            overrides.showSearchResult ? this.showSearchResults = overrides.showSearchResult.bind(this) : this.showSearchResults = this.showSearchResults.bind(this);
 		},
 		tagName: "div",
 		className: "filter-list-entry row",
