@@ -16,7 +16,12 @@ Then open your browser at http://<docker-machine-ip>
 
 To build an image for release, run:
 
-docker build -t [<your docker repository>/]pic-sure-ui:<your tag> .
+`docker build -t [<your docker repository>/]pic-sure-ui:<your tag> .`
+
+To run test via Jasmin, run:
+
+`mvn jasmine:bdd`
+
 
 
 
