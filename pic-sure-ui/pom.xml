@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.harvard.hms.dbmi.avillach.picsure</groupId>
@@ -40,9 +41,16 @@
 					<preloadSources>
 						<source>webjars/requirejs/2.3.5/require.min.js</source>
 					</preloadSources>
-					<srcDirectoryName>/js</srcDirectoryName>
+					<srcDirectoryName>/picsureui</srcDirectoryName>
 					<jsSrcDir>src/main/webapp/picsureui</jsSrcDir>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>io.github.bonigarcia</groupId>
+						<artifactId>webdrivermanager</artifactId>
+						<version>3.3.0</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
