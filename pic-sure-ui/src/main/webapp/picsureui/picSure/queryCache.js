@@ -3,6 +3,7 @@ define(['picSure/ontology', 'jquery','underscore'], function(ontology, $, _){
     var runningQueryIds = {};
 
     var submitQuery = function(targetSystem, query, displayName, dataCallback){
+        sessionStorage.setItem("lastActivityTime", new Date().getTime());
         var checkStatus = function(id, stillRunning){
             setTimeout(function(){
                 $.ajax(targetSystem.queryPath + '/' + runningQueryIds[displayName] + '/status', {

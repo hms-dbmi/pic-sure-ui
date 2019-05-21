@@ -6,6 +6,30 @@ define(["filter/filterList", "header/header", "footer/footer", "text!../settings
             if(!session || !session.token){
                 window.location = redirection_url;
             }
+
+            var timeout = JSON.parse(settings).timeout;
+            if (!timeout || timeout<=0){
+                timeout = 15*60;
+            }
+
+            var checkSessionTimeout = function(stillRunning){
+                setTimeout(function(){
+                    var lastActivityTime = sessionStorage.getItem("lastActivityTime");
+                    var currentDate = new Date();
+                    var secondsDifference = ((currentDate.getTime() - lastActivityTime)/1000).toFixed(0);
+                    if (secondsDifference <= timeout){
+                        if (secondsDifference == (timeout - 60)){
+                            // confirmationDialog("Your session is about to time out, do you want to keep this session?");
+                        }
+                        stillRunning();
+                    } else {
+                        sessionStorage.clear();
+                        localStorage.clear();
+                        window.location = "/";
+                    }
+                }, 1000);
+            };
+
             $.ajax({
                 // Validation call
                 url: window.location.origin + '/picsure/info/resources',
@@ -14,6 +38,13 @@ define(["filter/filterList", "header/header", "footer/footer", "text!../settings
                 type:'GET',
                 success: function(){
                     console.log("login successful");
+
+                    sessionStorage.setItem("lastActivityTime",new Date().getTime());
+                    var stillRunning = function(){
+                        checkSessionTimeout(stillRunning);
+                    };
+                    stillRunning();
+
                     localStorage.setItem("id_token", JSON.parse(sessionStorage.getItem("session")).token);
                     $.ajaxSetup({
                         error: function(event, jqxhr){

@@ -10,5 +10,6 @@
 		],
   	"helpLink": "mailto:bchbiobank4discovery@childrens.harvard.edu",
 	"advancedSearchLink": "/transmart/login/callback_processor",
-	"pdfLink":"about:blank"
+	"pdfLink":"about:blank",
+	"timeout": 900
 }

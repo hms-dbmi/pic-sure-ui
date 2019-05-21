@@ -197,6 +197,7 @@ define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "h
 			$('.search-box', this.$el).autocomplete({
 				deferRequestBy: 300,
 				lookup: function(query, done){
+                    sessionStorage.setItem("lastActivityTime", new Date().getTime());
 					model.set('searching', true);
 					spinner.small(ontology.autocomplete(query, done), spinnerSelector, "search-box-spinner");
 				},
