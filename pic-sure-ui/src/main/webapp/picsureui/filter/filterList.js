@@ -17,6 +17,7 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 			$('#clear-all-filters').on('click',function() {
 				 filterList.clearAllQueryFilters();
 			});
+            $('#clear-all-filters').hide();
 	}.bind(filterList);
 
 	filterList.addFilter = function(){
@@ -30,9 +31,13 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 		this.filters.push(newFilter);
 		$('#filter-list').append(newFilter.$el);
 	}.bind(filterList);
+
 	filterList.runQuery = function(){
-		var query = queryBuilder.createQuery(
-				_.pluck(this.filters, "model"));
+		var query = queryBuilder.createQuery(_.pluck(this.filters, "model"));
+
+		// Only show 'ClearAll' if there are more then one filters
+		if (this.filters.length>0) {$('#clear-all-filters').show();}
+
 		outputPanel.View.update(query);
 		if(_.countBy(this.filters, function(filter){
 			return filter.model.get("searchTerm").trim() === "" ? "empty" : "notEmpty";
@@ -56,15 +61,23 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 	}.bind(filterList);
 
 	/*
-	Clear the array where the references to the actual filter objects are stored
-	and then call the `destroyFilter` method on all the objects.
-	The `runQuery` method will add an empty filter field to the view, so we
-	don't have to ;)
+	  Clear the array where the references to the actual filter objects are stored
+	  and then call the `destroyFilter` method on all the objects.
+	  The `runQuery` method will add an empty filter field to the view, so we
+	  don't have to ;)
 	*/
 	filterList.clearAllQueryFilters = function () {
+	    //Clear all filters
 		fl = this.filters.splice(0,this.filters.length);
-		this.runQuery();
+
+		// Clear out all settings for the query
+		outputPanel.View.initialize();
+        outputPanel.View.model.set('queryRan',false)
+        outputPanel.View.update(JSON.parse('{"where":[]}'));
+
+        // Remove leftovers
 		for(var i = 0; i < fl.length; i++) { fl[i].destroyFilter();}
+        $('#clear-all-filters').hide();
 	}.bind(filterList);
 
 	return filterList;
