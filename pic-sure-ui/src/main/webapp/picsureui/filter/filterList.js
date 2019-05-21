@@ -62,8 +62,9 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 	don't have to ;)
 	*/
 	filterList.clearAllQueryFilters = function () {
-					fl = this.filters.splice(0,this.filters.length);
-					for(var i = 0; i < fl.length; i++) { fl[i].destroyFilter();}
+		fl = this.filters.splice(0,this.filters.length);
+		this.runQuery();
+		for(var i = 0; i < fl.length; i++) { fl[i].destroyFilter();}
 	}.bind(filterList);
 
 	return filterList;
