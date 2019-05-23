@@ -1,6 +1,6 @@
 define(["filter/filterList", "header/header", "footer/footer", "text!../settings/settings.json", "output/outputPanel",
         "picSure/resourceMeta", "jquery", "handlebars", "text!common/mainLayout.hbs",
-        "text!common/sessionExtendView", "text!options/modal.hbs", "treeview", "common/styles",],
+        "text!common/sessionExtendView.hbs", "text!options/modal.hbs", "treeview", "common/styles",],
     function(filterList, header, footer, settings, output, resourceMeta, $, HBS, layoutTemplate, sessionExtendHBS, modalHBS){
         var redirection_url = "/psamaui/login?redirection_url=" + "/picsureui/";
         return function(){
