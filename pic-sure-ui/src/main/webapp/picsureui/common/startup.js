@@ -1,12 +1,12 @@
 define(["filter/filterList", "header/header", "footer/footer", "text!../settings/settings.json", "output/outputPanel",
-        "picSure/resourceMeta", "jquery", "handlebars", "text!common/mainLayout.hbs", "treeview", "common/styles",
-        "common/sessionExtendView", "text!options/modal.hbs"],
-    function(filterList, header, footer, settings, output, resourceMeta, $, HBS, layoutTemplate, sessionExtendHBS, modalTemplate){
+        "picSure/resourceMeta", "jquery", "handlebars", "text!common/mainLayout.hbs",
+        "text!common/sessionExtendView", "text!options/modal.hbs", "treeview", "common/styles",],
+    function(filterList, header, footer, settings, output, resourceMeta, $, HBS, layoutTemplate, sessionExtendHBS, modalHBS){
         var redirection_url = "/psamaui/login?redirection_url=" + "/picsureui/";
-        var sessionExtendTemplate = HBS.compile(sessionExtendHBS);
-        var modalTemplate = HBS.compile(modalTemplate);
         return function(){
             var session = JSON.parse(sessionStorage.getItem("session"));
+            var sessionExtendTemplate = HBS.compile(sessionExtendHBS);
+            var modalTemplate = HBS.compile(modalHBS);
             if(!session || !session.token){
                 window.location = redirection_url;
             }
@@ -23,7 +23,7 @@ define(["filter/filterList", "header/header", "footer/footer", "text!../settings
                     var secondsDifference = ((currentDate.getTime() - lastActivityTime)/1000).toFixed(0);
                     if (secondsDifference <= timeout){
                         if (secondsDifference == (timeout - 60)){
-                            $("#modal-window", this.$el).html(this.modalTemplate({title: "Extend Session"}));
+                            $("#modal-window", this.$el).html(modalTemplate({title: "Extend Session"}));
                             $("#modalDialog", this.$el).show();
                             $(".modal-body", this.$el).html(sessionExtendTemplate());
                             $("#session-extend-ok-button").on("click", function(){
