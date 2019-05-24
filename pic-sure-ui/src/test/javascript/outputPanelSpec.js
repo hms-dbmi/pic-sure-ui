@@ -6,7 +6,7 @@ define(["output/outputPanel", "jquery", "text!settings/settings.json", "undersco
 		
 		describe("as a module", function(){
 			
-			it("is an object with an instantiated Backbone view in it accessible by the name View and with a client id", function(){
+			it("is an object with an instantiated Backbone view in it accessible by the name View", function(){
 				expect(outputPanel.View.cid).toBeDefined();
 			});			
 			
