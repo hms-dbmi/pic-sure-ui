@@ -50,7 +50,7 @@ define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "h
 		},
 		enterButtonEventHandler : function(event){
 			if(event.keyCode == 13){
-				overrides.enterKeyHandler ? overrides.enterKeyHandler.apply(this) 
+				overrides.enterKeyHandler ? overrides.enterKeyHandler.apply(this)
 						: function(){
 							var term = $('input.search-box', this.$el).val();
 							if(term && term.length > 0){
@@ -100,7 +100,7 @@ define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "h
 				this.model.set("searchTerm", suggestion.data);
 			}
 			if(this.model.get("searchTerm").trim().length > 0){
-				this.queryCallback();				
+				this.queryCallback();
 			}
 		},
 		editFilter : function(){
@@ -193,7 +193,8 @@ define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "h
 			var spinnerSelector = this.$el.find(".spinner-div");
 
 			var model = this.model;
-			
+			// Use a random string, never to match the first element in the array
+			var prevValue = Math.random().toString(36).substring(2, 15);
 			$('.search-box', this.$el).autocomplete({
 				deferRequestBy: 300,
 				lookup: function(query, done){
@@ -205,13 +206,21 @@ define(["picSure/ontology", "overrides/filter", "common/spinner", "backbone", "h
 				},
 				onSearchComplete: function(query, suggestions){
 					model.set('searching', false);
+					prevValue = Math.random().toString(36).substring(2, 15);
 				},
 				formatResult: function(suggestion, currentValue){
-					if(model.get('searching')){
-						return this.suggestionTemplate(suggestion);
-					}else{
-						return "";
+
+					// This function is called for each element in the response array,
+					// but we need to skip the ones that are the same value as the
+					// previous one. Also, relying on the fact that the result.suggestion is
+					// sorted in order (Note: what order? who cares! It is by 'length of string'
+					// and not alphabetical, for now)
+					var renderValue = '';
+					if (model.get('searching') && (overrides.filterAutocompleteResult ? overrides.filterAutocompleteResult(suggestion,prevValue):true)) {
+						renderValue = this.suggestionTemplate(suggestion);
 					}
+					prevValue = suggestion.value;
+					return renderValue;
 				}.bind(this),
 				triggerSelectOnValidInput: false,
 				minChars: 3,
