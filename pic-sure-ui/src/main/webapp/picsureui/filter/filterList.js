@@ -67,17 +67,22 @@ define(["output/outputPanel","picSure/queryBuilder", "filter/filter"],
 	  don't have to ;)
 	*/
 	filterList.clearAllQueryFilters = function () {
-	    //Clear all filters
+		//Clear all filters
 		fl = this.filters.splice(0,this.filters.length);
 
 		// Clear out all settings for the query
 		outputPanel.View.initialize();
-        outputPanel.View.model.set('queryRan',false)
-        outputPanel.View.update(JSON.parse('{"where":[]}'));
-
-        // Remove leftovers
+		outputPanel.View.model.set('queryRan',false)
+		outputPanel.View.update(JSON.parse('{"where":[]}'));
+		outputPanel.View.model.spinAll();
+		outputPanel.View.model.set('spinning',false);
+		_.each(outputPanel.View.model.attributes.resources, function(r) { r.spinning = false;});
+		delete outputPanel.View.model.attributes.i2b2ResultId;
+		outputPanel.View.render();
+		
+		// Remove leftovers
 		for(var i = 0; i < fl.length; i++) { fl[i].destroyFilter();}
-        $('#clear-all-filters').hide();
+		$('#clear-all-filters').hide();
 	}.bind(filterList);
 
 	return filterList;
