@@ -10,11 +10,11 @@ define(["backbone","handlebars", "text!header/header.hbs", "overrides/header", "
 		logout : function(event){
 			sessionStorage.clear();
 			window.location = '/psamaui?redirection_url=/picsureui';
-		}, 
+		},
 		render : function(){
 			this.$el.html(this.template({
 				logoPath: (overrides.logoPath
-                    ? overrides.logoPath : "/picsureui/images/pl_logo.png"),
+                    ? overrides.logoPath : "/picsureui/images/logo.png"),
                 helpLink: JSON.parse(settings).helpLink,
                 pdfLink:JSON.parse(settings).pdfLink
 			}));
