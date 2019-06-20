@@ -8,12 +8,24 @@
 				<span class="query-builder-heading col-md-12">QUERY BUILDER</span>
 			</div>
 			<div class="row">
-				<span class="query-name col-md-8">Query Name</span>
-				<a href="{{advancedSearchLink}}" target="_blank" class="advanced-search-btn col-md-4 right">Advanced Search</a> 
+				<span class="query-name col-md-5">Query Name</span>
+
+				<a href="{{advancedSearchLink}}" target="_blank" class="advanced-search-btn col-md-5 right">Advanced Search</a>
 			</div>
+
 			<ul class="container" id="filter-list"></ul>
+
+            <div class="row right">
+                <div class="col-md-11">
+                    <button class="btn-sm btn-info" id="clear-all-filters">Clear All</button>
+                </div>
+                <div class="col-md-offset-1"></div>
+            </div>
+
 		</div>
-		<div id="query-results" class="col-md-4"></div>
+		<div id="query-results" class="col-md-4">
+
+        </div>
 	</div>
 	<div id="footer">
 		<div id="footer-content"></div>

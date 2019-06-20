@@ -1,5 +1,5 @@
 {
-  "resources":[
+  	"resources":[
 		{
 			"id" : "PrecisionLink",
 			"name" : "PrecisionLink",
@@ -8,6 +8,7 @@
 			"resourcePath" : "/i2b2-wildfly-count-only"
 		}
 		],
-  "helpLink": "mailto:bchbiobank4discovery@childrens.harvard.edu",
-  "advancedSearchLink": "/transmart"
+  	"helpLink": "mailto:bchbiobank4discovery@childrens.harvard.edu",
+	"advancedSearchLink": "/transmart/login/callback_processor",
+	"pdfLink":"about:blank"
 }

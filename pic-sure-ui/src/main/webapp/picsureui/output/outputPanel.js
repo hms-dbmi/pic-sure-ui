@@ -84,21 +84,11 @@ define(["common/spinner", "text!output/outputPanel.hbs","picSure/resourceMeta", 
 					this.render();
 				}.bind(this);
 
-				_.each(query.where, function(whereClause){
-					whereClause.field.pui = mapPuiForResource(whereClause.field.pui, picsureInstance);
-				});
-
-				ontology.verifyPathsExist(_.pluck(_.pluck(query.where, 'field'), 'pui'), picsureInstance, function(allPathsExist){
-					if(allPathsExist){
-						queryCache.submitQuery(
-								picsureInstance,
-								query,
-								picsureInstance.id,
-								dataCallback);
-					}else{
-						dataCallback({data:[[{patient_set_counts: 0}]]});
-					}
-				});
+                queryCache.submitQuery(
+                    picsureInstance,
+                    query,
+                    picsureInstance.id,
+                    dataCallback);
 			}.bind(this));		
 		},
 		render: function(){

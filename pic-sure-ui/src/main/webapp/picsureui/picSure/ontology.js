@@ -1,4 +1,4 @@
-define(["picSure/resourceMeta", "overrides/ontology"], function(resourceMeta, overrides){
+define(["picSure/resourceMeta", "overrides/ontology","text!../settings/settings.json"], function(resourceMeta, overrides, settings){
 	var extractCategoryFromPui = (typeof overrides.extractCategoryFromPui === 'function') ?
 			overrides.extractCategoryFromPui 
 			: function(puiSegments){
@@ -13,7 +13,10 @@ define(["picSure/resourceMeta", "overrides/ontology"], function(resourceMeta, ov
 	var mapResponseToResult = function(query, response){
 		var result = {};
 		console.log(response);
-        result.suggestions = response.map(entry => {
+		var resourceSet = JSON.parse(settings).resources;
+        result.suggestions = _.filter(response.results, function(result){
+        	return result.pui.includes(resourceSet[0].basePui)
+		}).map(entry => {
 			var puiSegments = entry.pui.split("/");
 			return {
 				value : entry.name,
@@ -42,20 +45,27 @@ define(["picSure/resourceMeta", "overrides/ontology"], function(resourceMeta, ov
 			done(searchCache[query.toLowerCase()]);
 		}else{
 			return $.ajax({
-				url: window.location.origin + resourceMeta[0].findPath + "?term=%25"+query+"%25",
-				headers: {"Authorization": "Bearer " + localStorage.getItem("id_token")},
-				success: function(response){
-					var result = mapResponseToResult(query, response);
-					searchCache[query.toLowerCase()]=result;
-					done(result);
-				}.bind({done:done}),
-				error: function(response){
-					searchCache[query.toLowerCase()]=[];
-					done({suggestions:[]});
-				},
-				dataType: "json"
-			});		
-		}
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+					query:'%'+query+'%', resourceCredentials:{
+                		BEARER_TOKEN:localStorage.getItem("id_token"),IRCT_BEARER_TOKEN:localStorage.getItem("id_token")
+                	}
+                }),
+                url: window.location.origin + resourceMeta[0].findPath,
+                headers: {"Authorization": "Bearer " + localStorage.getItem("id_token")},
+                success: function(response){
+                    var result = mapResponseToResult(query, response);
+                    searchCache[query.toLowerCase()]=result;
+                    done(result);
+                }.bind({done:done}),
+                error: function(response){
+                    searchCache[query.toLowerCase()]=[];
+                    done({suggestions:[]});
+                },
+                dataType: "json"
+            });
+        }
 	}.bind({resourceMeta:resourceMeta});
 
 	var verifyPathsExist = function(paths, targetResource, done){
@@ -72,7 +82,7 @@ define(["picSure/resourceMeta", "overrides/ontology"], function(resourceMeta, ov
 			contentType: 'application/json',
 			data: JSON.stringify(paths),
 			success: function(response){
-				done(true);
+				done(true);o
 			},
 			error: function(response){
 				done(false);

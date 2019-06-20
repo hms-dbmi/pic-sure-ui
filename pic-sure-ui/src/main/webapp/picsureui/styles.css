@@ -117,7 +117,6 @@
  #header-content {
      width: 80%;
      height: 80px;
-     overflow: hidden;
 }
  .header-btn {
      top: 40px;
@@ -150,7 +149,7 @@
  .help-btn {
      background-color: white;
      border: none;
-     width:5em;
+     /*width:5em;*/
      border-radius: 0px;
      float: right;
      color: #4a90e2;
@@ -334,5 +333,25 @@ input::-webkit-inner-spin-button {
     bottom: 0;
     width: 100%;
 }
+
+.dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
 }
 
