@@ -8,7 +8,8 @@
 			"resourcePath" : "/i2b2-wildfly-count-only"
 		}
 		],
-  	"helpLink": "mailto:bchbiobank4discovery@childrens.harvard.edu",
+  	"helpLink": "mailto:",
 	"advancedSearchLink": "/transmart/login/callback_processor",
-	"pdfLink":"about:blank"
+	"pdfLink":"about:blank",
+	"timeout": 900
 }
